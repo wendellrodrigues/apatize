@@ -10,7 +10,7 @@ export default function Register() {
     email: "",
     password: "",
     password2: "",
-    invite: "",
+    code: "",
   });
 
   return (

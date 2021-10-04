@@ -33,14 +33,15 @@ const RegisterForm = (props) => {
   //Destructure setAlert from props
   const { formData, setFormData } = props;
   const [clickedState, setClickedState] = useState("");
-  const { name, email, password, password2, invite } = formData;
+  const { name, email, password, password2, code } = formData;
 
   //Submitting the form
   const onSubmit = async (e) => {
+    console.log(formData);
     if (password !== password2)
       props.setAlert("Passwords do not match", "danger");
     else {
-      props.register({ name, email, password });
+      props.register({ name, email, password, code });
     }
   };
 
@@ -151,22 +152,22 @@ const RegisterForm = (props) => {
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   ref_input5.current.focus();
-                  setClicked("invite");
+                  setClicked("code");
                 }
               }}
               ref={ref_input4}
               required
             />
           </Input>
-          <Input name="invite" stateName={clickedState}>
-            <Icon src={GiftIcon} name="invite" stateName={clickedState} />
+          <Input name="code" stateName={clickedState}>
+            <Icon src={GiftIcon} name="code" stateName={clickedState} />
             <TextField
               type="text"
               placeholder="Invite Code"
-              name="invite"
-              value={invite}
+              name="code"
+              value={code}
               onChange={(e) => onChange(e)}
-              onClick={(name) => setClicked("invite")}
+              onClick={(name) => setClicked("code")}
               stateName={clickedState}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {

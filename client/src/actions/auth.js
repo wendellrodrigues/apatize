@@ -4,7 +4,7 @@ import { REGISTER_SUCCESS, REGISTER_FAIL } from "./types";
 
 //Register User
 export const register =
-  ({ name, email, password }) =>
+  ({ name, email, password, code }) =>
   async (dispatch) => {
     //Set Headers
     const config = {
@@ -14,12 +14,15 @@ export const register =
     };
 
     //Set body
-    const body = JSON.stringify({ name, email, password });
+    const body = JSON.stringify({ name, email, password, code });
+
+    console.log(`Body: ${body}`);
 
     //Make request
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users",
+        "http://localhost:5000/api/users",
+        // "/server/api/users",
         body,
         config
       );
