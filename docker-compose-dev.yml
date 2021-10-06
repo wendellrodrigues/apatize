@@ -2,6 +2,7 @@ version: "3"
 services:
   react-app:
     image: react-app
+    build: ./client/
     stdin_open: true
     ports:
       - "3000:3000"
@@ -11,7 +12,8 @@ services:
       - ./client/:/usr/src/app
       - /usr/src/app/node_modules
   api-server:
-    image: api-server:latest
+    image: api-server
+    build: ./client/
     ports:
       - "5000:5000"
     networks:

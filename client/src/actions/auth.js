@@ -2,6 +2,8 @@ import axios from "axios";
 import { setAlert } from "./alert";
 import { REGISTER_SUCCESS, REGISTER_FAIL } from "./types";
 
+const baseUrl = process.env.REACT_APP_BASE_URL;
+
 //Register User
 export const register =
   ({ name, email, password, code }) =>
@@ -21,7 +23,7 @@ export const register =
     //Make request
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users",
+        `${baseUrl}/users`,
         // "/server/api/users",
         body,
         config
