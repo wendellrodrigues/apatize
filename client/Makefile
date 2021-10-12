@@ -12,5 +12,5 @@ build-production:
 	docker build \
 		-t react-app-production:production \
 		--build-arg CADDYFILE=Caddyfile.production \
-		--build-arg BASE_URL=http://apatize.com/api \
+		--build-arg BASE_URL=https://apatize.com/api \
 		-f Dockerfile.production .
