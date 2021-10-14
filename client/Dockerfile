@@ -17,7 +17,7 @@ COPY . .
 #Run on port 3000
 EXPOSE 3000
 
-ENV REACT_APP_BASE_URL=http://localhost:5000/api
+ENV REACT_APP_BASE_URL=http://0.0.0.0:5000/api
 
 #Run start command
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "server"]

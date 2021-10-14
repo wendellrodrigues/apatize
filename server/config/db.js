@@ -3,7 +3,7 @@ const config = require("config");
 const db = config.get("mongoURI");
 
 //Switches from dev/local/production env
-const connectionString = process.env.MONGO_URI;
+const connectionString = process.env.MONGO_URI || db;
 
 const connectDB = async () => {
   try {

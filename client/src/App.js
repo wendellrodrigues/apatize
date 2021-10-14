@@ -12,6 +12,8 @@ import useOnClickOutside from "./helpers/hooks";
 //Redux
 import { Provider } from "react-redux";
 import store from "./store";
+import { loadUser } from "./actions/auth";
+import { setAuthToken } from "./utils/setAuthToken";
 
 const App = () => {
   //For side menu
@@ -24,6 +26,15 @@ const App = () => {
     setOpen(false);
     console.log("Clicked outside");
   });
+
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
+  //Run this localStorage token check on page load
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
 
   return (
     <Provider store={store}>

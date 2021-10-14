@@ -9,7 +9,7 @@ const config = require("config");
 
 /**
   @route    GET  api/auth
-  @desc     Test route
+  @desc     GET a user profile
   @access   Public  
  */
 router.get("/", auth, async (req, res) => {

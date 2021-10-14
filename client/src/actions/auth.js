@@ -1,8 +1,35 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import { REGISTER_SUCCESS, REGISTER_FAIL } from "./types";
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
+} from "./types";
+
+import { setAuthToken } from "../utils/setAuthToken";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
+
+//Load User
+export const loadUser = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get(`${baseUrl}/auth`);
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: AUTH_ERROR,
+      payload: error,
+    });
+  }
+};
 
 //Register User
 export const register =
@@ -19,6 +46,7 @@ export const register =
     const body = JSON.stringify({ name, email, password, code });
 
     console.log(`Body: ${body}`);
+    console.log(`BASE URL: ${baseUrl}`);
 
     //Make request
     try {
