@@ -1,16 +1,24 @@
 import React, { useEffect, useRef, useState, Fragment } from "react";
-import AnchorLink from "react-anchor-link-smooth-scroll";
-import { Link, animateScroll as scroll } from "react-scroll";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
 import styled from "styled-components";
 import LoginForm from "../forms/LoginForm";
 import WelcomeText from "../texts/WelcomeText";
+import PropTypes from "prop-types";
 import About from "../sections/About";
 
-export default function Login() {
+const Login = (props) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  //Redirect if logged in
+  if (props.isAuthenticated) {
+    console.log("This is authenticated");
+    return <Redirect to="/dashboard"></Redirect>;
+  }
 
   return (
     <Fragment>
@@ -24,15 +32,15 @@ export default function Login() {
             formData={formData}
             setFormData={(formData) => setFormData(formData)}
           />
-          <Link to="/#about">
+          <LinkScroll to="/#about">
             <LearnMoreBottom>Learn More</LearnMoreBottom>
-          </Link>
+          </LinkScroll>
         </ContentWrapper>
       </Wrapper>
       <About id="about" />
     </Fragment>
   );
-}
+};
 
 const Wrapper = styled.div`
   height: auto;
@@ -99,3 +107,14 @@ const LearnMoreBottom = styled.p`
     display: none;
   }
 `;
+
+//Add to props
+Login.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Login);

@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { setAlert } from "../../actions/alert";
+import { login } from "../../actions/auth";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+import Alert from "../layout/Alert";
 
 //Hook
 import useOnClickOutside from "../../helpers/hooks";
@@ -24,7 +29,7 @@ import {
   ChangePageText,
 } from "../../styles/InputFieldStyles";
 
-export default function LoginForm(props) {
+const LoginForm = (props) => {
   const { formData, setFormData } = props;
   const [clickedState, setClickedState] = useState("");
   const { email, password } = formData;
@@ -39,7 +44,8 @@ export default function LoginForm(props) {
 
   //Submitting the form
   const onSubmit = async (e) => {
-    console.log("Submitted form");
+    console.log(formData);
+    props.login({ email, password });
   };
 
   //To handle UI animations for clicked fields
@@ -106,6 +112,7 @@ export default function LoginForm(props) {
               required
             />
           </Input>
+          <Alert />
           <SubmitButton
             onClick={(formData) => {
               onSubmit(formData);
@@ -125,7 +132,7 @@ export default function LoginForm(props) {
       </Wrapper>
     </div>
   );
-}
+};
 
 const Wrapper = styled.div`
   position: relative;
@@ -148,3 +155,10 @@ const ContentWrapper = styled.div`
   gap: 20px;
   justify-items: center;
 `;
+
+LoginForm.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setAlert, login })(LoginForm);

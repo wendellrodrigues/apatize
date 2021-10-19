@@ -1,29 +1,52 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Fragment } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import SideWaysLogo from "../../static/logos/sideways_logo.svg";
 import { MenuText } from "../../styles/TextStyles";
 
-export default function Navbar() {
+import { logout } from "../../actions/auth";
+
+const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   //Menu for when app is at login screen
-  const LoginMenu = [
+  const guestLinks = [
     { title: "Login", link: "/" },
     { title: "Register", link: "/register" },
   ];
 
+  //Menu Items for when app is authenticated
+  const authLinks = [{ title: "Logout", action: logout, link: "/" }];
+
+  const guestMenu = (
+    <MenuWrapper count={guestLinks.length}>
+      {guestLinks.map((item, index) => (
+        <Link to={item.link}>
+          <MenuItem>{item.title}</MenuItem>
+        </Link>
+      ))}
+    </MenuWrapper>
+  );
+
+  const authMenu = (
+    <MenuWrapper count={authLinks.length}>
+      {authLinks.map((item, index) => (
+        <Link to={item.link}>
+          <MenuItem onClick={item.action}>{item.title}</MenuItem>
+        </Link>
+      ))}
+    </MenuWrapper>
+  );
+
   return (
     <Wrapper>
       <LogoImg src={SideWaysLogo} />
-      <MenuWrapper count={LoginMenu.length}>
-        {LoginMenu.map((item, index) => (
-          <Link to={item.link}>
-            <MenuItem>{item.title}</MenuItem>
-          </Link>
-        ))}
-      </MenuWrapper>
+      {!loading && (
+        <Fragment>{isAuthenticated ? authMenu : guestMenu}</Fragment>
+      )}
     </Wrapper>
   );
-}
+};
 
 const Wrapper = styled.div`
   position: absolute;
@@ -63,3 +86,14 @@ const MenuWrapper = styled.div`
 `;
 
 const MenuItem = styled(MenuText)``;
+
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);

@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState, Fragment } from "react";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
 import styled from "styled-components";
 import RegisterForm from "../forms/RegisterForm";
 import WelcomeText from "../texts/WelcomeText";
+import PropTypes from "prop-types";
 import About from "../sections/About";
 
-export default function Register() {
+const Register = (props) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,6 +16,12 @@ export default function Register() {
     password2: "",
     code: "",
   });
+
+  //Redirect if logged in
+  if (props.isAuthenticated) {
+    console.log("This is authenticated");
+    return <Redirect to="/dashboard"></Redirect>;
+  }
 
   return (
     <Fragment>
@@ -25,13 +35,15 @@ export default function Register() {
             formData={formData}
             setFormData={(formData) => setFormData(formData)}
           />
-          <LearnMoreBottom>Learn More</LearnMoreBottom>
+          <LinkScroll to="/#about">
+            <LearnMoreBottom>Learn More</LearnMoreBottom>
+          </LinkScroll>
         </ContentWrapper>
       </Wrapper>
-      <About />
+      <About id="about" />
     </Fragment>
   );
-}
+};
 const Wrapper = styled.div`
   height: auto;
   width: 100%;
@@ -97,3 +109,13 @@ const LearnMoreBottom = styled.p`
     display: none;
   }
 `;
+
+Register.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Register);
