@@ -6,6 +6,8 @@ import SideMenu from "./components/layout/SideMenu";
 import HamburgerButton from "./components/buttons/HamburgerButton";
 import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
+import Dashboard from "./components/dashboard/Dashboard";
+import PrivateRoute from "./components/routing/PrivateRoute";
 import Register from "./components/auth/Register";
 import useOnClickOutside from "./helpers/hooks";
 
@@ -44,20 +46,28 @@ const App = () => {
             <HamburgerButton open={open} setOpen={(open) => setOpen(open)} />
             <Navbar />
             <SideMenu open={open} setOpen={(open) => setOpen(open)} />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                component={Login}
-                page={(page) => setPage("Login")}
-              />
-              <Route
-                exact
-                path="/register"
-                component={Register}
-                page={(page) => setPage("Register")}
-              />
-            </Switch>
+            <Content>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  component={Login}
+                  page={(page) => setPage("Login")}
+                />
+                <Route
+                  exact
+                  path="/register"
+                  component={Register}
+                  page={(page) => setPage("Register")}
+                />
+                <PrivateRoute
+                  exact
+                  path="/dashboard"
+                  component={Dashboard}
+                  page={(page) => setPage("Dashboard")}
+                />
+              </Switch>
+            </Content>
           </Wrapper>
         </div>
       </Router>
@@ -68,3 +78,6 @@ const App = () => {
 export default App;
 
 const Wrapper = styled.div``;
+const Content = styled.div`
+  margin-top: 120px;
+`;
