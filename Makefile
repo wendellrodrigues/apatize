@@ -4,7 +4,8 @@ build-dev:
 	cd server && $(MAKE) build
 
 run-dev:
-	docker-compose -f docker-compose-dev.yml up
+	docker-compose down
+	docker-compose -f docker-compose.yml up
 
 develop: 
 	$(MAKE) build-dev && $(MAKE) run-dev

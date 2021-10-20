@@ -40,6 +40,7 @@ const RegisterForm = (props) => {
     if (password !== password2)
       props.setAlert("Passwords do not match", "danger");
     else {
+      console.log(`CODE: ${code}`);
       props.register({ name, email, password, code });
     }
   };
@@ -50,6 +51,7 @@ const RegisterForm = (props) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    console.log(formData);
   };
 
   //To handle UI animations for clicked fields

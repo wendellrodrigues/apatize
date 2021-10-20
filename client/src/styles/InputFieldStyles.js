@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
+//First Input style (for login and register)
 export const Input = styled.div`
   overflow: hidden;
   display: grid;
@@ -22,9 +23,6 @@ export const Input = styled.div`
       : "rgb(255, 255, 255, 0)"};
   }
   transition: 0.2s linear;
-  
-  
-
 `;
 
 export const Icon = styled.img`
@@ -59,7 +57,6 @@ export const TextField = styled.input`
     color: #b7a8a8;
   }
   transition: 0.2s linear;
-   
 `;
 
 export const SubmitButton = styled.div`
