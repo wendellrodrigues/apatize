@@ -7,6 +7,7 @@ import HamburgerButton from "./components/buttons/HamburgerButton";
 import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
+import Profile from "./components/dashboard/Profile";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import Register from "./components/auth/Register";
 import useOnClickOutside from "./helpers/hooks";
@@ -66,6 +67,12 @@ const App = () => {
                   component={Dashboard}
                   page={(page) => setPage("Dashboard")}
                 />
+                <PrivateRoute
+                  exact
+                  path="/profile"
+                  component={Profile}
+                  page={(page) => setPage("Profile")}
+                />
               </Switch>
             </Content>
           </Wrapper>
@@ -80,4 +87,8 @@ export default App;
 const Wrapper = styled.div``;
 const Content = styled.div`
   margin-top: 120px;
+
+  @media (max-width: 745px) {
+    margin-top: 0px;
+  }
 `;

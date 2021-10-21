@@ -19,7 +19,7 @@ import {
   ErrorText,
 } from "../../styles/ProfileInputFieldStyles";
 
-const ProfileForm = ({ alerts, setAlert }) => {
+const ProfileForm = ({ alerts, setAlert, profile: { profile, loading } }) => {
   const [formData, setFormData] = useState({
     height: "",
     weight: "",
@@ -33,6 +33,36 @@ const ProfileForm = ({ alerts, setAlert }) => {
     feet: "",
     inches: "",
   });
+
+  //Load profile data if exists
+  useEffect(() => {
+    if (profile) {
+      const { height, weight, age, sex, goal, lifestyle } = profile;
+      const { feet, inches } = convertInchesToHeight(height);
+      setFormData({
+        height: height,
+        weight: weight,
+        age: age,
+        sex: sex,
+        goal: goal,
+        lifestyle: lifestyle,
+      });
+      setHeight({
+        feet: feet,
+        inches: inches,
+      });
+    }
+  }, []);
+
+  const convertInchesToHeight = (totalInches) => {
+    const inches = totalInches % 12;
+    const leftover = totalInches - inches;
+    const feet = leftover / 12;
+    return {
+      feet: feet,
+      inches: inches,
+    };
+  };
 
   const [clickedState, setClickedState] = useState("");
 
@@ -282,7 +312,7 @@ const ProfileForm = ({ alerts, setAlert }) => {
 const Wrapper = styled.div`
   position: relative;
   margin: auto;
-  top: 10%;
+  margin-bottom: 100px;
   width: 60%;
 
   @media (max-width: 1300px) {
@@ -305,19 +335,27 @@ const AttributesWrapper = styled.div`
   position: relative;
   margin: auto;
   width: 350px;
+
+  @media (max-width: 400px) {
+    width: 280px;
+  }
 `;
 const ObjectivesWrapper = styled.div`
   position: relative;
   margin-left: auto;
   margin-right: auto;
   width: 350px;
+
+  @media (max-width: 400px) {
+    width: 280px;
+  }
 `;
 
 const AttributesFields = styled.div`
   position: relative;
   display: grid;
   align-content: start;
-  gap: 40px;
+  gap: 30px;
   border-radius: 30px;
   width: 100%;
   height: auto;
@@ -330,7 +368,7 @@ const ObjectivesFields = styled(AttributesFields)``;
 const FieldWrapper = styled.div`
   position: relative;
   display: grid;
-  gap: 10px;
+  gap: 5px;
   margin: auto;
   width: 75%;
 `;
@@ -339,8 +377,8 @@ const FieldTitle = styled.h1`
   position: relative;
   font-style: normal;
   font-weight: bold;
-  font-size: 30px;
-  line-height: 40px;
+  font-size: 20px;
+  line-height: 25px;
   color: black;
 `;
 
@@ -358,10 +396,12 @@ const Spacer = styled.div`
 ProfileForm.propTypes = {
   setAlert: PropTypes.func.isRequired,
   alerts: PropTypes.array.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   alerts: state.alert, //From root reducer
+  profile: state.profile,
 });
 
 export default connect(mapStateToProps, { setAlert })(ProfileForm);

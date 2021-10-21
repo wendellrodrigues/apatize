@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
+import { Redirect } from "react-router-dom";
 
 //Page Content
 import ProfileForm from "../forms/ProfileForm";
@@ -12,13 +13,14 @@ const Dashboard = ({
   getCurrentProfile,
   auth,
   profile: { profile, loading },
+  alerts,
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, []);
 
   //Loading
-  if (loading && profile == null) {
+  if (loading) {
     return (
       <SpinnerContainer>
         <Spinner />
@@ -27,14 +29,9 @@ const Dashboard = ({
   }
   //No Profile
   else if (profile == null) {
-    return (
-      <Fragment>
-        <Spacer />
-        <ProfileForm />
-      </Fragment>
-    );
+    return <Redirect to="/profile"></Redirect>;
   } else {
-    return <Fragment>Profile</Fragment>;
+    return <Fragment>Profile Exists</Fragment>;
   }
 };
 
@@ -51,11 +48,13 @@ Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  alerts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
+  alerts: state.alert,
 });
 
 export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);

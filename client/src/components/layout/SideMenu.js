@@ -1,12 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import SideWaysLogo from "../../static/logos/sideways_logo.svg";
 import { MenuText } from "../../styles/TextStyles";
 import useOnClickOutside from "../../helpers/hooks";
 
-export default function SideMenu(props) {
-  const { open, setOpen } = props;
+import { logout } from "../../actions/auth";
+
+const SideMenu = (props) => {
+  const {
+    open,
+    setOpen,
+    auth: { isAuthenticated, loading },
+    logout,
+  } = props;
 
   //For closing the side menu (small screens) on selection
   const closeMenu = () => {
@@ -19,18 +28,46 @@ export default function SideMenu(props) {
     { title: "Register", link: "/register" },
   ];
 
+  const guestLinks = [
+    { title: "Login", link: "/" },
+    { title: "Register", link: "/register" },
+  ];
+
+  //Menu Items for when app is authenticated
+  const authLinks = [
+    { title: "Dashboard", link: "/dashboard" },
+    { title: "Profile", link: "/profile" },
+    { title: "Logout", action: logout, link: "/" },
+  ];
+
+  const guestMenu = (
+    <MenuWrapper count={guestLinks.length}>
+      {guestLinks.map((item, index) => (
+        <Link to={item.link}>
+          <MenuItem>{item.title}</MenuItem>
+        </Link>
+      ))}
+    </MenuWrapper>
+  );
+
+  const authMenu = (
+    <MenuWrapper count={authLinks.length}>
+      {authLinks.map((item, index) => (
+        <Link to={item.link}>
+          <MenuItem onClick={item.action}>{item.title}</MenuItem>
+        </Link>
+      ))}
+    </MenuWrapper>
+  );
+
   return (
     <Wrapper open={open}>
-      <MenuWrapper count={LoginMenu.length}>
-        {LoginMenu.map((item, index) => (
-          <Link to={item.link}>
-            <MenuItem onClick={closeMenu}>{item.title}</MenuItem>
-          </Link>
-        ))}
-      </MenuWrapper>
+      {!loading && (
+        <Fragment>{isAuthenticated ? authMenu : guestMenu}</Fragment>
+      )}
     </Wrapper>
   );
-}
+};
 
 const Wrapper = styled.nav`
   display: grid;
@@ -61,3 +98,14 @@ const MenuWrapper = styled.div`
 const MenuItem = styled(MenuText)`
   padding: 5px;
 `;
+
+SideMenu.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(SideMenu);

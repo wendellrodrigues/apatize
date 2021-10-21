@@ -16,7 +16,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   ];
 
   //Menu Items for when app is authenticated
-  const authLinks = [{ title: "Logout", action: logout }];
+  const authLinks = [
+    { title: "Dashboard", link: "/dashboard" },
+    { title: "Profile", link: "/profile" },
+    { title: "Logout", action: logout, link: "/" },
+  ];
 
   const guestMenu = (
     <MenuWrapper count={guestLinks.length}>
@@ -31,7 +35,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authMenu = (
     <MenuWrapper count={authLinks.length}>
       {authLinks.map((item, index) => (
-        <MenuItem onClick={item.action}>{item.title}</MenuItem>
+        <Link to={item.link}>
+          <MenuItem onClick={item.action}>{item.title}</MenuItem>
+        </Link>
       ))}
     </MenuWrapper>
   );

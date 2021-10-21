@@ -5,7 +5,12 @@ import { Input, SubmitButton, ButtonText, TextField } from "./InputFieldStyles";
 
 //The Profile Input (with letters at the end ie. in, ft, lbs)
 export const ProfileInput = styled(Input)`
+  height: 40px;
+  border-radius: 15px;
   grid-template-columns: auto 40px;
+  @media (max-width: 400px) {
+    height: 40px;
+  }
 `;
 
 export const ProfileSelectInput = styled(ProfileInput)`
@@ -18,6 +23,10 @@ export const TxtIdentifier = styled.p`
   font-size: 15px;
   //line-height: 16px;
   color: gray;
+  overflow: hidden;
+  @media (max-width: 400px) {
+    font-size: 12px;
+  }
 `;
 
 export const NumberField = styled(TextField)`
@@ -40,7 +49,10 @@ export const SelectField = styled.select`
   ::placeholder {
     color: #b7a8a8;
   }
-  transition: 0.2s linear;`;
+  transition: 0.2s linear;
+  @media (max-width: 400px) {
+    font-size: 12px;
+  }`;
 
 //The Profile Input (with no letters at the end but dropdown menu)
 export const ProfileSecondaryInput = styled(Input)`
