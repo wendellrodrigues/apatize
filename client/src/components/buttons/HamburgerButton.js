@@ -1,20 +1,27 @@
 // Burger.js
 import React, { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
-export default function HamburgerButton(props) {
-  const { open, setOpen } = props;
+import { hideMenu, showMenu } from "../../actions/sideMenu";
 
-  const setOpenBurger = () => {
-    setOpen(!open);
-    console.log(open);
-  };
-
+const HamburgerButton = ({
+  hideMenu,
+  showMenu,
+  sideMenu: { open },
+  auth: { isAuthenticated },
+}) => {
   return (
     <Wrapper
       open={open}
+      auth={isAuthenticated}
       onClick={() => {
-        setOpenBurger();
+        if (open == false) {
+          showMenu();
+        } else {
+          hideMenu();
+        }
       }}
     >
       <div />
@@ -22,7 +29,20 @@ export default function HamburgerButton(props) {
       <div />
     </Wrapper>
   );
-}
+};
+
+const handleColorType = (obj) => {
+  const { open, auth } = obj;
+  if (!auth && open) {
+    return "background: #e77b7b";
+  } else if (!auth && !open) {
+    return "background: #fae6e6";
+  } else if (auth) {
+    return "background: #e77b7b";
+  } else {
+    return "background: black";
+  }
+};
 
 const Wrapper = styled.button`
   position: absolute;
@@ -47,7 +67,11 @@ const Wrapper = styled.button`
   div {
     width: 2rem;
     height: 0.25rem;
-    background: ${({ open }) => (open ? "#e77b7b" : "#fae6e6")};
+    ${(auth) => handleColorType(auth)};
+
+    /* background: ${({ auth }) => (auth ? "#e77b7b" : "#e77b7b")};
+    background: ${({ open, auth }) =>
+      open && !auth ? "#e77b7b" : "#fae6e6"}; */
     border-radius: 10px;
     transition: all 0.3s linear;
     position: relative;
@@ -71,3 +95,19 @@ const Wrapper = styled.button`
     display: none;
   }
 `;
+
+HamburgerButton.propTypes = {
+  sideMenu: PropTypes.object.isRequired,
+  hideMenu: PropTypes.func.isRequired,
+  showMenu: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  sideMenu: state.sideMenu,
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { hideMenu, showMenu })(
+  HamburgerButton
+);

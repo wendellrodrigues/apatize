@@ -16,3 +16,7 @@ export const AUTH_ERROR = "AUTH_ERROR"; //If token doesnt match
 export const GET_PROFILE = "GET_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 export const CLEAR_PROFILE = "CLEAR_PROFILE";
+
+//SideMenu
+export const SHOW_SIDE_MENU = "SHOW_SIDE_MENU";
+export const HIDE_SIDE_MENU = "HIDE_SIDE_MENU";

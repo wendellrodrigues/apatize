@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Navbar from "./components/layout/Navbar";
 import SideMenu from "./components/layout/SideMenu";
 import HamburgerButton from "./components/buttons/HamburgerButton";
@@ -12,6 +14,8 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 import Register from "./components/auth/Register";
 import useOnClickOutside from "./helpers/hooks";
 
+import { showMenu, hideMenu } from "./actions/sideMenu";
+
 //Redux
 import { Provider } from "react-redux";
 import store from "./store";
@@ -20,15 +24,7 @@ import { setAuthToken } from "./utils/setAuthToken";
 
 const App = () => {
   //For side menu
-  const [open, setOpen] = useState(false);
   const [page, setPage] = useState("Login");
-
-  const ref = useRef();
-
-  useOnClickOutside(ref, () => {
-    setOpen(false);
-    console.log("Clicked outside");
-  });
 
   useEffect(() => {
     store.dispatch(loadUser());
@@ -42,11 +38,11 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <div ref={ref}>
+        <div>
           <Wrapper>
-            <HamburgerButton open={open} setOpen={(open) => setOpen(open)} />
+            <HamburgerButton />
             <Navbar />
-            <SideMenu open={open} setOpen={(open) => setOpen(open)} />
+            <SideMenu />
             <Content>
               <Switch>
                 <Route
@@ -82,8 +78,6 @@ const App = () => {
   );
 };
 
-export default App;
-
 const Wrapper = styled.div``;
 const Content = styled.div`
   margin-top: 120px;
@@ -92,3 +86,4 @@ const Content = styled.div`
     margin-top: 0px;
   }
 `;
+export default App;

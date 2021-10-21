@@ -57,9 +57,8 @@ const ContentWrapper = styled.div`
   gap: 200px;
   justify-content: center;
   align-items: top;
-
-  margin-top: 300px;
-  margin-bottom: 300px;
+  margin-top: 200px;
+  margin-bottom: 100;
 
   @media (max-width: 1000px) {
     gap: 80px;

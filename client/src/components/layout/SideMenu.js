@@ -8,20 +8,14 @@ import { MenuText } from "../../styles/TextStyles";
 import useOnClickOutside from "../../helpers/hooks";
 
 import { logout } from "../../actions/auth";
+import { hideMenu } from "../../actions/sideMenu";
 
-const SideMenu = (props) => {
-  const {
-    open,
-    setOpen,
-    auth: { isAuthenticated, loading },
-    logout,
-  } = props;
-
-  //For closing the side menu (small screens) on selection
-  const closeMenu = () => {
-    setOpen(false);
-  };
-
+const SideMenu = ({
+  auth: { isAuthenticated, loading },
+  logout,
+  sideMenu: { open },
+  hideMenu,
+}) => {
   //Menu for when app is at login screen
   const LoginMenu = [
     { title: "Login", link: "/" },
@@ -35,8 +29,8 @@ const SideMenu = (props) => {
 
   //Menu Items for when app is authenticated
   const authLinks = [
-    { title: "Dashboard", link: "/dashboard" },
-    { title: "Profile", link: "/profile" },
+    { title: "Dashboard", action: hideMenu, link: "/dashboard" },
+    { title: "Profile", action: hideMenu, link: "/profile" },
     { title: "Logout", action: logout, link: "/" },
   ];
 
@@ -44,7 +38,7 @@ const SideMenu = (props) => {
     <MenuWrapper count={guestLinks.length}>
       {guestLinks.map((item, index) => (
         <Link to={item.link}>
-          <MenuItem>{item.title}</MenuItem>
+          <MenuItem onClick={hideMenu}>{item.title}</MenuItem>
         </Link>
       ))}
     </MenuWrapper>
@@ -102,10 +96,13 @@ const MenuItem = styled(MenuText)`
 SideMenu.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  sideMenu: PropTypes.object.isRequired,
+  hideMenu: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  sideMenu: state.sideMenu,
 });
 
-export default connect(mapStateToProps, { logout })(SideMenu);
+export default connect(mapStateToProps, { hideMenu, logout })(SideMenu);

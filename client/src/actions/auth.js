@@ -1,5 +1,6 @@
 import axios from "axios";
 import { setAlert } from "./alert";
+import { hideMenu } from "./sideMenu";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -106,6 +107,7 @@ export const login =
 
 //Logout / Clear Profile
 export const logout = () => (dispatch) => {
+  dispatch(hideMenu());
   dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
 };
