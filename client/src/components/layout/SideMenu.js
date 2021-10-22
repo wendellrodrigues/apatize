@@ -6,6 +6,7 @@ import styled from "styled-components";
 import SideWaysLogo from "../../static/logos/sideways_logo.svg";
 import { MenuText } from "../../styles/TextStyles";
 import useOnClickOutside from "../../helpers/hooks";
+import ExitButton from "../buttons/ExitButton";
 
 import { logout } from "../../actions/auth";
 import { hideMenu } from "../../actions/sideMenu";
@@ -16,6 +17,14 @@ const SideMenu = ({
   sideMenu: { open },
   hideMenu,
 }) => {
+  const ref = useRef();
+
+  useOnClickOutside(ref, () => {
+    hideMenu();
+  });
+
+  useRef(() => {}, [open]);
+
   //Menu for when app is at login screen
   const LoginMenu = [
     { title: "Login", link: "/" },
@@ -54,13 +63,18 @@ const SideMenu = ({
     </MenuWrapper>
   );
 
-  return (
-    <Wrapper open={open}>
-      {!loading && (
-        <Fragment>{isAuthenticated ? authMenu : guestMenu}</Fragment>
-      )}
-    </Wrapper>
-  );
+  if (open) {
+    return (
+      <Wrapper ref={ref} open={open}>
+        <ExitButton />
+        {!loading && (
+          <Fragment>{isAuthenticated ? authMenu : guestMenu}</Fragment>
+        )}
+      </Wrapper>
+    );
+  } else {
+    return <Fragment />;
+  }
 };
 
 const Wrapper = styled.nav`
