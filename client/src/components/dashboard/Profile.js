@@ -14,6 +14,7 @@ const Profile = ({
   profile: { profile, loading },
 }) => {
   useEffect(() => {
+    console.log("Getting current profile for Profile page");
     getCurrentProfile();
   }, []);
 

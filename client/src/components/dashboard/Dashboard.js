@@ -8,6 +8,7 @@ import { Redirect } from "react-router-dom";
 
 //Page Content
 import ProfileForm from "../forms/ProfileForm";
+import Plan from "./Plan";
 
 const Dashboard = ({
   getCurrentProfile,
@@ -16,6 +17,7 @@ const Dashboard = ({
   alerts,
 }) => {
   useEffect(() => {
+    console.log("Getting current profile for Dashboard Page");
     getCurrentProfile();
   }, []);
 
@@ -31,7 +33,7 @@ const Dashboard = ({
   else if (profile == null) {
     return <Redirect to="/profile"></Redirect>;
   } else {
-    return <Fragment>Profile Exists</Fragment>;
+    return <Plan profile={profile} />;
   }
 };
 

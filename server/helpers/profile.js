@@ -241,6 +241,13 @@ module.exports = {
     const year = date.getFullYear();
     const day = date.getDay();
 
+    //Standardize Time to UTC
+    date.setTime(
+      date.getTime() +
+        date.getTimezoneOffset() * 60 * 1000 /* convert to UTC */ +
+        /* UTC+8 */ 8 * 60 * 60 * 1000
+    );
+
     //Get Sunday of this week
     const firstDay = today - day;
 
