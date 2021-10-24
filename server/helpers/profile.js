@@ -229,6 +229,154 @@ module.exports = {
     }
   },
 
+  structureWeek: async (id) => {
+    //Get profile
+    let profile = await Profile.findOne({ user: id });
+    if (!profile) return false;
+
+    //Get today
+    var date = new Date();
+    const today = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const day = date.getDay();
+
+    //Get Sunday of this week
+    const firstDay = today - day;
+
+    //Get Saturday of this week
+    const lastDay = today + (6 - day);
+
+    //Fill in profile fields
+    let profileFields = {
+      week: {
+        sunday: {
+          breakfasts: profile.week.sunday.breakfasts,
+          lunches: profile.week.sunday.lunches,
+          dinners: profile.week.sunday.dinners,
+        },
+        monday: {
+          breakfasts: profile.week.monday.breakfasts,
+          lunches: profile.week.monday.lunches,
+          dinners: profile.week.monday.dinners,
+        },
+        tuesday: {
+          breakfasts: profile.week.tuesday.breakfasts,
+          lunches: profile.week.tuesday.lunches,
+          dinners: profile.week.tuesday.dinners,
+        },
+        wednesday: {
+          breakfasts: profile.week.wednesday.breakfasts,
+          lunches: profile.week.wednesday.lunches,
+          dinners: profile.week.wednesday.dinners,
+        },
+        thursday: {
+          breakfasts: profile.week.thursday.breakfasts,
+          lunches: profile.week.thursday.lunches,
+          dinners: profile.week.thursday.dinners,
+        },
+        friday: {
+          breakfasts: profile.week.friday.breakfasts,
+          lunches: profile.week.friday.lunches,
+          dinners: profile.week.friday.dinners,
+        },
+        saturday: {
+          breakfasts: profile.week.saturday.breakfasts,
+          lunches: profile.week.saturday.lunches,
+          dinners: profile.week.saturday.dinners,
+        },
+        dates: {
+          today: today,
+          month: month,
+          year: year,
+          firstDay: firstDay,
+          lastDay: lastDay,
+        },
+      },
+    };
+
+    //Upload to mongoDB profile
+    try {
+      profile = await Profile.findOneAndUpdate(
+        { user: id },
+        { $set: profileFields },
+        { useFindAndModify: false }
+      );
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+
+    //return { firstDay, lastDay, month, today };
+  },
+};
+
+//Constructs food based on inputs from the spoonacular API and the Food model
+constructFood = (meal) => {
+  const food = {};
+
+  //Construct fields
+  food.vegetarian = meal.vegetarian;
+  food.vegan = meal.vegan;
+  food.glutenFree = meal.glutenFree;
+  food.dairyFree = meal.dairyFree;
+  food.veryHealthy = meal.veryHealthy;
+  food.cheap = meal.cheap;
+  food.veryPopular = meal.veryPopular;
+  food.sustainable = meal.sustainable;
+  food.weightWatcherSmartPoints = meal.weightWatcherSmartPoints;
+  food.gaps = meal.gaps;
+  food.lowFodmap = meal.lowFodmap;
+  food.preparationMinutes = meal.preparationMinutes;
+  food.cookingMinutes = meal.cookingMinutes;
+  food.aggregateLikes = meal.aggregateLikes;
+  food.spoonacularScore = meal.spoonacularScore;
+  food.healthScore = meal.healthScore;
+  food.creditsText = meal.creditsText;
+  food.sourceName = meal.sourceName;
+  food.pricePerServing = meal.pricePerServing;
+  food.id = meal.id;
+  food.title = meal.title;
+  food.readyInMinutes = meal.readyInMinutes;
+  food.servings = meal.servings;
+  food.sourceUrl = meal.sourceUrl;
+  food.image = meal.image;
+  food.imageType = meal.imageType;
+
+  food.nutrients = [];
+  food.properties = [];
+  food.flavonoids = [];
+  food.ingredients = [];
+  for (nutrient of meal.nutrition.nutrients) food.nutrients.push(nutrient);
+  for (property of meal.nutrition.properties) food.properties.push(property);
+  for (flavonoid of meal.nutrition.flavonoids) food.flavonoids.push(nutrient);
+  for (ingredient of meal.nutrition.ingredients)
+    food.ingredients.push(ingredient);
+
+  food.caloricBreakdown = meal.nutrition.caloricBreakdown;
+  food.weightPerServing = meal.nutrition.weightPerServing;
+
+  food.cuisines = meal.cuisines;
+  food.dishTypes = meal.dishTypes;
+  food.diets = meal.diets;
+  food.occasions = meal.occasions;
+
+  food.instructions = [];
+  const analyzedInstructions = meal.analyzedInstructions;
+
+  if (analyzedInstructions.length > 0) {
+    const instructions = meal.analyzedInstructions[0].steps;
+    for (instruction of instructions) {
+      food.instructions.push(instruction);
+    }
+  }
+  return food;
+};
+
+/**
+
+
   //Adds weekly meals as an object to the user's Profile object in mongo DB
   addWeeklyMeals: async (type, id, meals, offset) => {
     //Get profile
@@ -333,68 +481,5 @@ module.exports = {
       return false;
     }
   },
-};
 
-addDay = (day, meals) => {};
-
-//Constructs food based on inputs from the spoonacular API and the Food model
-constructFood = (meal) => {
-  const food = {};
-
-  //Construct fields
-  food.vegetarian = meal.vegetarian;
-  food.vegan = meal.vegan;
-  food.glutenFree = meal.glutenFree;
-  food.dairyFree = meal.dairyFree;
-  food.veryHealthy = meal.veryHealthy;
-  food.cheap = meal.cheap;
-  food.veryPopular = meal.veryPopular;
-  food.sustainable = meal.sustainable;
-  food.weightWatcherSmartPoints = meal.weightWatcherSmartPoints;
-  food.gaps = meal.gaps;
-  food.lowFodmap = meal.lowFodmap;
-  food.preparationMinutes = meal.preparationMinutes;
-  food.cookingMinutes = meal.cookingMinutes;
-  food.aggregateLikes = meal.aggregateLikes;
-  food.spoonacularScore = meal.spoonacularScore;
-  food.healthScore = meal.healthScore;
-  food.creditsText = meal.creditsText;
-  food.sourceName = meal.sourceName;
-  food.pricePerServing = meal.pricePerServing;
-  food.id = meal.id;
-  food.title = meal.title;
-  food.readyInMinutes = meal.readyInMinutes;
-  food.servings = meal.servings;
-  food.sourceUrl = meal.sourceUrl;
-  food.image = meal.image;
-  food.imageType = meal.imageType;
-
-  food.nutrients = [];
-  food.properties = [];
-  food.flavonoids = [];
-  food.ingredients = [];
-  for (nutrient of meal.nutrition.nutrients) food.nutrients.push(nutrient);
-  for (property of meal.nutrition.properties) food.properties.push(property);
-  for (flavonoid of meal.nutrition.flavonoids) food.flavonoids.push(nutrient);
-  for (ingredient of meal.nutrition.ingredients)
-    food.ingredients.push(ingredient);
-
-  food.caloricBreakdown = meal.nutrition.caloricBreakdown;
-  food.weightPerServing = meal.nutrition.weightPerServing;
-
-  food.cuisines = meal.cuisines;
-  food.dishTypes = meal.dishTypes;
-  food.diets = meal.diets;
-  food.occasions = meal.occasions;
-
-  food.instructions = [];
-  const analyzedInstructions = meal.analyzedInstructions;
-
-  if (analyzedInstructions.length > 0) {
-    const instructions = meal.analyzedInstructions[0].steps;
-    for (instruction of instructions) {
-      food.instructions.push(instruction);
-    }
-  }
-  return food;
-};
+ */

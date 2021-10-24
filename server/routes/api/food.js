@@ -46,7 +46,10 @@ router.post("/generateMealPlan", auth, async (req, res) => {
     if (res == false) return res.status(500).send("Server Error");
   });
 
-  //
+  //Add dates to user's Profile in the db
+  await profile.structureWeek(req.user.id).then((res) => {
+    if (res == false) return res.status(500).send("Server Error");
+  });
 
   const weeklyMealPlan = userProfile.week;
 

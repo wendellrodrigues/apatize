@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const FoodSchema = require("./Food").schema;
 
+//Meals of the day
 const Day = new mongoose.Schema({
   breakfasts: {
     type: Object,
@@ -10,6 +11,25 @@ const Day = new mongoose.Schema({
   },
   dinners: {
     type: Object,
+  },
+});
+
+//Days of the week
+const Dates = new mongoose.Schema({
+  today: {
+    type: Number,
+  },
+  month: {
+    type: Number,
+  },
+  year: {
+    type: Number,
+  },
+  firstDay: {
+    type: Number,
+  },
+  lastDay: {
+    type: Number,
   },
 });
 
@@ -34,6 +54,9 @@ const Week = new mongoose.Schema({
   },
   saturday: {
     type: Day,
+  },
+  dates: {
+    type: Dates,
   },
 });
 
