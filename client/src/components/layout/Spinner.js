@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import Lottie from "react-lottie";
 import LoadingSpinner from "../../static/loading.json";
-import styled from "styled-components";
 
 const Spinner = () => {
   const defaultOptions = {

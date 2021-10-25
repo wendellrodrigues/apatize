@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState, Fragment } from "react";
+import React, { useRef, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import SideWaysLogo from "../../static/logos/sideways_logo.svg";
+
 import { MenuText } from "../../styles/TextStyles";
 import useOnClickOutside from "../../helpers/hooks";
 import ExitButton from "../buttons/ExitButton";
@@ -24,12 +24,6 @@ const SideMenu = ({
   });
 
   useRef(() => {}, [open]);
-
-  //Menu for when app is at login screen
-  const LoginMenu = [
-    { title: "Login", link: "/" },
-    { title: "Register", link: "/register" },
-  ];
 
   const guestLinks = [
     { title: "Login", link: "/" },

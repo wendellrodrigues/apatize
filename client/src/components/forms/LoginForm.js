@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
@@ -11,11 +11,8 @@ import Alert from "../layout/Alert";
 import useOnClickOutside from "../../helpers/hooks";
 
 //Icons
-import UserIcon from "../../static/icons/user.svg";
 import MailIcon from "../../static/icons/mail.svg";
 import KeyIcon from "../../static/icons/key.svg";
-import KeyLockIcon from "../../static/icons/key-lock.svg";
-import GiftIcon from "../../static/icons/gift.svg";
 
 import {
   Input,

@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState, Fragment } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import Alert from "../layout/Alert";
 
 //Hook
 import useOnClickOutside from "../../helpers/hooks";
@@ -132,7 +131,7 @@ const ProfileForm = ({ alerts, setAlert, profile: { profile, loading } }) => {
       errors++;
     }
 
-    if (errors == 0) {
+    if (errors === 0) {
       //Submit the form
       console.log(formData);
     }
@@ -141,12 +140,12 @@ const ProfileForm = ({ alerts, setAlert, profile: { profile, loading } }) => {
   const checkError = (type) => {
     let found = false;
     for (alert of alerts) {
-      if (alert.alertType == type) {
+      if (alert.alertType === type) {
         found = true;
         return <ErrorText>{alert.msg}</ErrorText>;
       }
     }
-    if (found == false) {
+    if (found === false) {
       return <Spacer />;
     }
   };

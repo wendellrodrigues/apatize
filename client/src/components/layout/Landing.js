@@ -1,6 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React from "react";
 import styled from "styled-components";
 import LoginForm from "../forms/LoginForm";
 import WelcomeText from "../texts/WelcomeText";
