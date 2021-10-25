@@ -55,8 +55,6 @@ router.post(
     //Pull fields out of the request body
     const { height, weight, age, sex, goal, lifestyle } = req.body;
 
-    console.log(req.user.id);
-
     //Build profile objects
     const profileFields = {};
     profileFields.user = req.user.id;

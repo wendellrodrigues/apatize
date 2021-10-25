@@ -1,6 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-
 import { Input, SubmitButton, ButtonText, TextField } from "./InputFieldStyles";
 
 //The Profile Input (with letters at the end ie. in, ft, lbs)
@@ -39,7 +37,7 @@ export const SelectField = styled.select`
   margin-left: 40%;
   font-size: 15px; 
   transform: ${(props) =>
-    props.name == props.stateName ? "scale(1.1)" : "none"};
+    props.name === props.stateName ? "scale(1.1)" : "none"};
   };
   font-weight: 550;
   background: none;

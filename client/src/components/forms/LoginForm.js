@@ -44,7 +44,6 @@ const LoginForm = (props) => {
 
   //Submitting the form
   const onSubmit = async (e) => {
-    console.log(formData);
     props.login({ email, password });
   };
 

@@ -1,4 +1,3 @@
-import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 //First Input style (for login and register)
@@ -7,7 +6,7 @@ export const Input = styled.div`
   display: grid;
   position: relative;
   border-color: ${(props) =>
-    props.name == props.stateName ? "#e77b7b" : "#e77b7b"};
+    props.name === props.stateName ? "#e77b7b" : "#e77b7b"};
   };
   border-style: solid;
   margin: auto;
@@ -18,7 +17,7 @@ export const Input = styled.div`
   width: 100%;
   height: 60px;
   background: ${(props) =>
-    props.name == props.stateName
+    props.name === props.stateName
       ? "rgb(255, 255, 255, 0.3)"
       : "rgb(255, 255, 255, 0)"};
   }
@@ -28,25 +27,25 @@ export const Input = styled.div`
 export const Icon = styled.img`
   display: grid;
   position: relative;
-  margin-left: ${(props) => (props.name == props.stateName ? "26px" : "25px")};
+  margin-left: ${(props) => (props.name === props.stateName ? "26px" : "25px")};
   };
   width: 15px;
   height: 15px;
   transform: ${(props) =>
-    props.name == props.stateName ? "scale(1.2)" : "none"};
+    props.name === props.stateName ? "scale(1.2)" : "none"};
   };
-  opacity: ${(props) => (props.name == props.stateName ? "1" : "0.7")};
+  opacity: ${(props) => (props.name === props.stateName ? "1" : "0.7")};
   };
   transition: 0.2s linear;
 `;
 
 export const TextField = styled.input`
   overflow: hidden;
-  margin-left: ${(props) => (props.name == props.stateName ? "30px" : "15px")};
+  margin-left: ${(props) => (props.name === props.stateName ? "30px" : "15px")};
   };
   font-size: 15px; 
   transform: ${(props) =>
-    props.name == props.stateName ? "scale(1.1)" : "none"};
+    props.name === props.stateName ? "scale(1.1)" : "none"};
   };
   font-weight: 550;
   background: none;

@@ -114,7 +114,6 @@ router.get("/getRecipe", auth, async (req, res) => {
       }
     } else {
       //No profile found
-      console.log("No profile");
       return res.status(500).send("Server Error");
     }
   } catch (err) {
@@ -129,7 +128,6 @@ router.get("/getRecipe", auth, async (req, res) => {
   @access   Private 
  */
 router.post("/getIngredients", auth, async (req, res) => {
-  console.log("getting ingredients");
   res.status(200).send();
 });
 

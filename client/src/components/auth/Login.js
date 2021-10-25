@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
-import { Link as LinkScroll, animateScroll as scroll } from "react-scroll";
+import { Redirect } from "react-router-dom";
+import { Link as LinkScroll } from "react-scroll";
 import styled from "styled-components";
 import LoginForm from "../forms/LoginForm";
 import WelcomeText from "../texts/WelcomeText";

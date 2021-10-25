@@ -133,7 +133,7 @@ const ProfileForm = ({ alerts, setAlert, profile: { profile, loading } }) => {
     }
 
     if (errors == 0) {
-      console.log("No Errors");
+      //Submit the form
       console.log(formData);
     }
   };

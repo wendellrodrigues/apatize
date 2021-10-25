@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import DatesTitle from "./PlanComponents/DatesTitle";
 
 const Plan = ({ profile }) => {
+  const dates = profile.week.dates;
   //Check if today's date is within range of dates in profile object
   //If within range, display foods
   //If out of range, display (generate plan button)
@@ -12,13 +13,15 @@ const Plan = ({ profile }) => {
   return (
     <Wrapper>
       <ContentWrapper>
-        <DatesTitle />
+        <DatesTitle dates={dates} />
       </ContentWrapper>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin-top: 100px; ;
+`;
 
 const ContentWrapper = styled.div``;
 

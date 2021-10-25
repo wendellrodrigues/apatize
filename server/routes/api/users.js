@@ -36,17 +36,14 @@ router.post(
 
     const { name, email, password, code } = req.body;
 
-    console.log(req.body);
-
     try {
       // let inviteCode = await Code.findOne({ code });
       // if (!inviteCode) {
       //   return res.status(400).json({ errors: [{ msg: "Code Unavailable" }] });
       // }
       //See if the user exists
-      console.log("finding user");
       let user = await User.findOne({ email });
-      console.log(`USER: ${user}`);
+
       if (user) {
         return res
           .status(400)

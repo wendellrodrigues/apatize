@@ -49,9 +49,6 @@ export const register =
     //Set body
     const body = JSON.stringify({ name, email, password, code });
 
-    console.log(`Body: ${body}`);
-    console.log(`BASE URL: ${baseUrl}`);
-
     //Make request
     try {
       const res = await axios.post(`${baseUrl}/users`, body, config);
@@ -61,7 +58,6 @@ export const register =
       });
       dispatch(loadUser());
     } catch (err) {
-      console.log(err);
       const errors = err.response.data.errors;
       if (errors) {
         errors.forEach((error) => dispatch(setAlert(error.msg)));

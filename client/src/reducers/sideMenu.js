@@ -4,7 +4,7 @@ const initialState = {
   open: false,
 };
 
-export default function (state = initialState, action) {
+export default function sideMenu(state = initialState, action) {
   const { type } = action;
   switch (type) {
     case SHOW_SIDE_MENU:

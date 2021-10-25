@@ -66,7 +66,6 @@ module.exports = {
       );
       return true;
     } catch (err) {
-      console.log(err);
       return false;
     }
   },
@@ -140,7 +139,6 @@ module.exports = {
       );
       return true;
     } catch (err) {
-      console.log(err);
       return false;
     }
   },
@@ -224,7 +222,6 @@ module.exports = {
       );
       return true;
     } catch (err) {
-      console.log(err);
       return false;
     }
   },
@@ -311,7 +308,6 @@ module.exports = {
       );
       return true;
     } catch (err) {
-      console.log(err);
       return false;
     }
 
@@ -484,7 +480,7 @@ constructFood = (meal) => {
       );
       return true;
     } catch (err) {
-      console.log(err);
+      
       return false;
     }
   },

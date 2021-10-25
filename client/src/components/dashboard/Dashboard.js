@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -7,7 +7,6 @@ import Spinner from "../layout/Spinner";
 import { Redirect } from "react-router-dom";
 
 //Page Content
-import ProfileForm from "../forms/ProfileForm";
 import Plan from "./Plan";
 
 const Dashboard = ({
@@ -17,7 +16,6 @@ const Dashboard = ({
   alerts,
 }) => {
   useEffect(() => {
-    console.log("Getting current profile for Dashboard Page");
     getCurrentProfile();
   }, []);
 
@@ -36,11 +34,6 @@ const Dashboard = ({
     return <Plan profile={profile} />;
   }
 };
-
-//Temporary (delete later)
-const Spacer = styled.div`
-  margin-top: 100px;
-`;
 
 const SpinnerContainer = styled.div`
   margin-top: 300px;

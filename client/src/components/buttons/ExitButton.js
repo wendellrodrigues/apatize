@@ -1,5 +1,5 @@
 // Burger.js
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";

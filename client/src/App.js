@@ -1,20 +1,14 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import Navbar from "./components/layout/Navbar";
 import SideMenu from "./components/layout/SideMenu";
 import HamburgerButton from "./components/buttons/HamburgerButton";
-import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import Profile from "./components/dashboard/Profile";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import Register from "./components/auth/Register";
-import useOnClickOutside from "./helpers/hooks";
-
-import { showMenu, hideMenu } from "./actions/sideMenu";
 
 //Redux
 import { Provider } from "react-redux";
