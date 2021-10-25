@@ -23,6 +23,7 @@ const setToday = () => {
 
 const initialState = {
   day: setToday(),
+  //day: null,
   loading: true,
 };
 

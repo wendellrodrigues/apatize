@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import DayButton from "./DayButton";
 
 const DaysWheel = ({
@@ -32,7 +32,5 @@ const Wrapper = styled.div`
   margin: auto;
   width: 50%;
 `;
-
-DaysWheel.propTypes = {};
 
 export default DaysWheel;

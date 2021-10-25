@@ -63,7 +63,8 @@ export const SaveButton = styled(SubmitButton)`
   background: #cbf6da;
 
   :hover {
-    background: #72a182;
+    background: #e3faeb;
+    cursor: pointer;
   }
 `;
 export const SaveButtonText = styled(ButtonText)`
