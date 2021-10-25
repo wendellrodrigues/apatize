@@ -20,3 +20,6 @@ export const CLEAR_PROFILE = "CLEAR_PROFILE";
 //SideMenu
 export const SHOW_SIDE_MENU = "SHOW_SIDE_MENU";
 export const HIDE_SIDE_MENU = "HIDE_SIDE_MENU";
+
+//Change day
+export const CHANGE_DAY = "CHANGE_DAY";

@@ -18,8 +18,8 @@ const DaysWheel = ({
 
   return (
     <Wrapper>
-      {days.map((day, index) => (
-        <DayButton day={day} key={index} />
+      {days.map((today, index) => (
+        <DayButton today={today} key={index} />
       ))}
     </Wrapper>
   );

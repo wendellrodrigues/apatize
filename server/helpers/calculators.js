@@ -1,7 +1,19 @@
 module.exports = {
   getDays: () => {
     //Get today
-    var date = new Date();
+    var d = new Date();
+    var date = new Date(d.toUTCString());
+
+    //Convert to PST (PDT)
+    date.setHours(date.getHours() - 7);
+
+    //Standardize Time to UTC
+    // date.setTime(
+    //   date.getTime() +
+    //     date.getTimezoneOffset() * 60 * 1000 /* convert to UTC */ +
+    //     /* UTC+8 */ 8 * 60 * 60 * 1000
+    // );
+
     const today = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
@@ -9,12 +21,7 @@ module.exports = {
 
     const leapYear = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
 
-    //Standardize Time to UTC
-    date.setTime(
-      date.getTime() +
-        date.getTimezoneOffset() * 60 * 1000 /* convert to UTC */ +
-        /* UTC+8 */ 8 * 60 * 60 * 1000
-    );
+    console.log(`Today: ${today}`);
 
     var sunday = today - day;
     var monday = today - day + 1;
