@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-export default function DatesTitle({ dates: { firstDay, lastDay, month } }) {
+export default function DatesTitle({ dates: { sunday, saturday, month } }) {
   //Serialize month
   const getMonth = () => {
     const months = {
@@ -25,7 +25,7 @@ export default function DatesTitle({ dates: { firstDay, lastDay, month } }) {
     <Wrapper>
       <ContentWrapper>
         <Month>{getMonth()}</Month>
-        <Dates>{`${firstDay}-${lastDay}`}</Dates>
+        <Dates>{`${sunday}-${saturday}`}</Dates>
       </ContentWrapper>
     </Wrapper>
   );

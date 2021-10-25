@@ -2,6 +2,7 @@ const axios = require("axios");
 const Profile = require("../models/Profile");
 const Food = require("../models/Food");
 const User = require("../models/User");
+const Calculator = require("./calculators");
 
 module.exports = {
   //Adds breakfasts to each day of the week
@@ -231,25 +232,8 @@ module.exports = {
     let profile = await Profile.findOne({ user: id });
     if (!profile) return false;
 
-    //Get today
-    var date = new Date();
-    const today = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const day = date.getDay();
-
-    //Standardize Time to UTC
-    date.setTime(
-      date.getTime() +
-        date.getTimezoneOffset() * 60 * 1000 /* convert to UTC */ +
-        /* UTC+8 */ 8 * 60 * 60 * 1000
-    );
-
-    //Get Sunday of this week
-    const firstDay = today - day;
-
-    //Get Saturday of this week
-    const lastDay = today + (6 - day);
+    //Helper function to get days
+    const dates = Calculator.getDays();
 
     //Fill in profile fields
     let profileFields = {
@@ -290,11 +274,15 @@ module.exports = {
           dinners: profile.week.saturday.dinners,
         },
         dates: {
-          today: today,
-          month: month,
-          year: year,
-          firstDay: firstDay,
-          lastDay: lastDay,
+          month: dates.month,
+          year: dates.year,
+          sunday: dates.sunday,
+          monday: dates.monday,
+          tuesday: dates.tuesday,
+          wednesday: dates.wednesday,
+          thursday: dates.thursday,
+          friday: dates.friday,
+          saturday: dates.saturday,
         },
       },
     };

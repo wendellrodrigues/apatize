@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import DatesTitle from "./PlanComponents/DatesTitle";
+import DaysWheel from "./PlanComponents/DaysWheel";
 
 const Plan = ({ profile }) => {
   const dates = profile.week.dates;
@@ -14,16 +15,20 @@ const Plan = ({ profile }) => {
     <Wrapper>
       <ContentWrapper>
         <DatesTitle dates={dates} />
+        <DaysWheel dates={dates} />
       </ContentWrapper>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  margin-top: 100px; ;
+  margin-top: 100px;
 `;
 
-const ContentWrapper = styled.div``;
+const ContentWrapper = styled.div`
+  display: grid;
+  gap: 50px;
+`;
 
 Plan.propTypes = {};
 

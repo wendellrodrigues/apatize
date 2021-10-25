@@ -25,10 +25,25 @@ const Dates = new mongoose.Schema({
   year: {
     type: Number,
   },
-  firstDay: {
+  sunday: {
     type: Number,
   },
-  lastDay: {
+  monday: {
+    type: Number,
+  },
+  tuesday: {
+    type: Number,
+  },
+  wednesday: {
+    type: Number,
+  },
+  thursday: {
+    type: Number,
+  },
+  friday: {
+    type: Number,
+  },
+  saturday: {
     type: Number,
   },
 });

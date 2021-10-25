@@ -54,6 +54,7 @@ router.post("/generateMealPlan", auth, async (req, res) => {
   const weeklyMealPlan = userProfile.week;
 
   res.status(200).json(weeklyMealPlan);
+  //res.status(200).json("Thanks");
 
   // //Get Breakfasts from spoonacular
   // await foods.generateWeeklyBreakfasts(600).then((breakfasts) => {
