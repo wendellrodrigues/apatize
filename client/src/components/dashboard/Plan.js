@@ -8,7 +8,7 @@ import DaysWheel from "./PlanComponents/DaysWheel";
 const Plan = ({ profile }) => {
   //Handler for generating a weekly plan
   const generatePlan = () => {};
- 
+
   //Check to see if today's date is within the days AND plan is generated
   const handleRender = () => {
     //Check if profile
@@ -96,7 +96,7 @@ const Welcome = styled.h1`
   font-weight: bold;
   text-align: center;
   color: black;
-  font-size: 40px;
+  font-size: 60px;
   overflow: hidden;
 `;
 

@@ -298,8 +298,29 @@ module.exports = {
     } catch (err) {
       return false;
     }
+  },
+  deleteWeek: async (id) => {
+    console.log("deleting week");
+    //Get profile
+    let profile = await Profile.findOne({ user: id });
+    console.log("Found profile in delete week");
+    if (!profile) return false;
 
-    //return { firstDay, lastDay, month, today };
+    let profileFields = {
+      week: null,
+    };
+
+    //Upload to mongoDB profile
+    try {
+      profile = await Profile.findOneAndUpdate(
+        { user: id },
+        { $set: profileFields },
+        { useFindAndModify: false }
+      );
+      return true;
+    } catch (err) {
+      return false;
+    }
   },
 };
 

@@ -22,38 +22,44 @@ const tempDinner = require("../../helpers/temp/dinner");
  */
 router.post("/generateMealPlan", auth, async (req, res) => {
   //Get profile requirements
-  let userProfile = await Profile.findOne({ user: req.user.id });
-  if (!userProfile) return res.status(500).json({ err: "No Profile Found" });
 
-  //Get offset (offset is the randomization)
-  let offset = userProfile.offset;
-  //reset offset
-  if (offset >= 10) offset = -1;
+  try {
+    let userProfile = await Profile.findOne({ user: req.user.id });
+    if (!userProfile) return res.status(500).json({ err: "No Profile Found" });
 
-  //For dev purposes (remove later)
-  tmpBkfst = tempBreakfast.results;
-  tmpLnch = tempLunch.results;
-  tmpDnr = tempLunch.results;
+    //Get offset (offset is the randomization)
+    let offset = userProfile.offset;
+    //reset offset
+    if (offset >= 10) offset = -1;
 
-  //Add weekly meals to the user's Profile in the db
-  await profile.addWeeklyBreakfasts(req.user.id, tmpBkfst).then((res) => {
-    if (res == false) return res.status(500).send("Server Error");
-  });
-  await profile.addWeeklyLunches(req.user.id, tmpLnch).then((res) => {
-    if (res == false) return res.status(500).send("Server Error");
-  });
-  await profile.addWeeklyDinners(req.user.id, tmpDnr, offset).then((res) => {
-    if (res == false) return res.status(500).send("Server Error");
-  });
+    //For dev purposes (remove later)
+    tmpBkfst = tempBreakfast.results;
+    tmpLnch = tempLunch.results;
+    tmpDnr = tempLunch.results;
 
-  //Add dates to user's Profile in the db
-  await profile.structureWeek(req.user.id).then((res) => {
-    if (res == false) return res.status(500).send("Server Error");
-  });
+    //Add weekly meals to the user's Profile in the db
+    await profile.addWeeklyBreakfasts(req.user.id, tmpBkfst).then((res) => {
+      if (res == false) return res.status(500).send("Server Error");
+    });
+    await profile.addWeeklyLunches(req.user.id, tmpLnch).then((res) => {
+      if (res == false) return res.status(500).send("Server Error");
+    });
+    await profile.addWeeklyDinners(req.user.id, tmpDnr, offset).then((res) => {
+      if (res == false) return res.status(500).send("Server Error");
+    });
 
-  const weeklyMealPlan = userProfile.week;
+    //Add dates to user's Profile in the db
+    await profile.structureWeek(req.user.id).then((res) => {
+      if (res == false) return res.status(500).send("Server Error");
+    });
 
-  res.status(200).json(weeklyMealPlan);
+    const weeklyMealPlan = userProfile.week;
+
+    res.status(200).json(weeklyMealPlan);
+  } catch (err) {
+    return res.status(500).send("Server Error");
+  }
+
   //res.status(200).json("Thanks");
 
   // //Get Breakfasts from spoonacular
@@ -81,6 +87,29 @@ router.post("/generateMealPlan", auth, async (req, res) => {
   //   if (res == false) return res.status(500).send("Server Error");
   // });
   // });
+});
+
+/**
+  @route    POST api/food/deleteMealPlan
+  @desc     Deletes week object from user profile
+  @access   Private  */
+router.post("/deleteMealPlan", auth, async (req, res) => {
+  try {
+    let userProfile = await Profile.findOne({ user: req.user.id });
+    if (userProfile) {
+      console.log("profile found");
+      await profile.deleteWeek(req.user.id).then((res) => {
+        if (res == false) return res.status(500).send("Server Error");
+      });
+      return res.status(200).send("Success");
+    } else {
+      //No profile found
+      return res.status(500).send("Server Error");
+    }
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send("Server Error");
+  }
 });
 
 /**

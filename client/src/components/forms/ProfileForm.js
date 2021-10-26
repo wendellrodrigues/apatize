@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { createProfile } from "../../actions/profile";
 
 //Hook
 import useOnClickOutside from "../../helpers/hooks";
@@ -18,7 +20,13 @@ import {
   ErrorText,
 } from "../../styles/ProfileInputFieldStyles";
 
-const ProfileForm = ({ alerts, setAlert, profile: { profile, loading } }) => {
+const ProfileForm = ({
+  alerts,
+  setAlert,
+  profile: { profile, loading },
+  createProfile,
+  history,
+}) => {
   const [formData, setFormData] = useState({
     height: "",
     weight: "",
@@ -132,7 +140,7 @@ const ProfileForm = ({ alerts, setAlert, profile: { profile, loading } }) => {
     }
 
     if (errors === 0) {
-      //Submit the form
+      createProfile(formData, history);
       console.log(formData);
     }
   };
@@ -393,6 +401,7 @@ const Spacer = styled.div`
 `;
 
 ProfileForm.propTypes = {
+  createProfile: PropTypes.func.isRequired,
   setAlert: PropTypes.func.isRequired,
   alerts: PropTypes.array.isRequired,
   profile: PropTypes.object.isRequired,
@@ -403,4 +412,6 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { setAlert })(ProfileForm);
+export default connect(mapStateToProps, { setAlert, createProfile })(
+  withRouter(ProfileForm)
+);
