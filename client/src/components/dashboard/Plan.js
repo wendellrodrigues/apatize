@@ -4,15 +4,32 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import DatesTitle from "./PlanComponents/DatesTitle";
 import DaysWheel from "./PlanComponents/DaysWheel";
+import { getCurrentProfile } from "../../actions/profile";
+import { generateMealPlan, deleteMealPlan } from "../../actions/food";
+import Spinner from "../layout/Spinner";
 
-const Plan = ({ profile }) => {
+const Plan = ({
+  profile: { profile },
+  food,
+  generateMealPlan,
+  deleteMealPlan,
+  getCurrentProfile,
+}) => {
   //Handler for generating a weekly plan
-  const generatePlan = () => {};
+  const generatePlan = () => {
+    generateMealPlan();
+  };
+
+  /**
+  useEffect(() => {
+    getCurrentProfile();
+  }, []); */
 
   //Check to see if today's date is within the days AND plan is generated
   const handleRender = () => {
     //Check if profile
     if (!profile.week) return false;
+
     //Get today
     var d = new Date();
     var date = new Date(d.toUTCString());
@@ -31,16 +48,18 @@ const Plan = ({ profile }) => {
     ];
 
     for (let day of days) {
+      console.log("Made handle render");
       if (today == day) return true;
     }
-
     //Clear plan from profile
+    deleteMealPlan();
     return false;
   };
 
+  //If generating meal plan
+  //Render
   if (handleRender()) {
     const dates = profile.week.dates;
-
     return (
       <Wrapper>
         <ContentWrapper>
@@ -51,17 +70,35 @@ const Plan = ({ profile }) => {
     );
   }
   //If plan not generated
-  else {
+  if (food.loading) {
     return (
-      <Wrapper>
-        <ContentWrapper>
-          <WelcomeWrapper>
-            <Welcome>Welcome</Welcome>
-            <GreenButton>Generate Plan</GreenButton>
-          </WelcomeWrapper>
-        </ContentWrapper>
-      </Wrapper>
+      <SpinnerContainer>
+        <Spinner />
+      </SpinnerContainer>
     );
+  } else {
+    if (handleRender()) {
+      const dates = profile.week.dates;
+      return (
+        <Wrapper>
+          <ContentWrapper>
+            <DatesTitle dates={dates} />
+            <DaysWheel dates={dates} />
+          </ContentWrapper>
+        </Wrapper>
+      );
+    } else {
+      return (
+        <Wrapper>
+          <ContentWrapper>
+            <WelcomeWrapper>
+              <Welcome>Welcome</Welcome>
+              <GreenButton onClick={generatePlan}>Generate Plan</GreenButton>
+            </WelcomeWrapper>
+          </ContentWrapper>
+        </Wrapper>
+      );
+    }
   }
 
   //Check if today's date is within range of dates in profile object
@@ -80,6 +117,10 @@ const ContentWrapper = styled.div`
   margin: auto;
   gap: 50px;
   width: 100%;
+`;
+
+const SpinnerContainer = styled.div`
+  margin-top: 300px;
 `;
 
 //Holds components before plan is formed
@@ -125,6 +166,21 @@ export const GreenButton = styled.div`
   transition: 0.2s ease-in;
 `;
 
-Plan.propTypes = {};
+Plan.propTypes = {
+  getCurrentProfile: PropTypes.func,
+  generateMealPlan: PropTypes.func.isRequired,
+  deleteMealPlan: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+  food: PropTypes.object.isRequired,
+};
 
-export default Plan;
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+  food: state.food,
+});
+
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  generateMealPlan,
+  deleteMealPlan,
+})(Plan);

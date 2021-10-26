@@ -12,7 +12,7 @@ import Plan from "./Plan";
 const Dashboard = ({
   getCurrentProfile,
   auth,
-  profile: { profile, loading },
+  profile: { loading, profile },
   alerts,
 }) => {
   useEffect(() => {
@@ -31,7 +31,7 @@ const Dashboard = ({
   else if (profile == null) {
     return <Redirect to="/profile"></Redirect>;
   } else {
-    return <Plan profile={profile} />;
+    return <Plan />;
   }
 };
 

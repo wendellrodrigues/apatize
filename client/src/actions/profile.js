@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_PROFILE, PROFILE_ERROR } from "./types";
+import {
+  GET_PROFILE,
+  PROFILE_ERROR,
+  GENERATE_MEAL_PLAN,
+  DELETE_MEAL_PLAN,
+} from "./types";
 import { setAlert } from "./alert";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -57,15 +62,3 @@ export const createProfile =
       });
     }
   };
-
-//Delete Meal Plan (week)
-export const deleteMealPlan = () => async (dispatch) => {
-  try {
-  } catch (err) {}
-};
-
-//Update Meal Plan (week)
-export const createMealPlan = () => async (dispatch) => {
-  try {
-  } catch (err) {}
-};

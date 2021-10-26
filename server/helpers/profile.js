@@ -300,10 +300,8 @@ module.exports = {
     }
   },
   deleteWeek: async (id) => {
-    console.log("deleting week");
     //Get profile
     let profile = await Profile.findOne({ user: id });
-    console.log("Found profile in delete week");
     if (!profile) return false;
 
     let profileFields = {

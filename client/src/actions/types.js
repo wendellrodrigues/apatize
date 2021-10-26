@@ -23,3 +23,9 @@ export const HIDE_SIDE_MENU = "HIDE_SIDE_MENU";
 
 //Change day
 export const CHANGE_DAY = "CHANGE_DAY";
+
+//Meal Plans (Week)
+export const GENERATE_MEAL_PLAN = "GENERATE_MEAL_PLAN";
+export const DELETE_MEAL_PLAN = "DELETE_MEAL_PLAN";
+export const MEAL_PLAN_ERROR = "MEAL_PLAN_ERROR";
+export const SET_PLAN_LOADING = " SET_MEAL_LOADING";
