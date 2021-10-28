@@ -86,6 +86,10 @@ const Wrapper = styled.nav`
   @media (min-width: 760px) {
     display: none;
   }
+
+  @media (max-width: 400px) {
+    width: 60%;
+  }
 `;
 
 const MenuWrapper = styled.div`

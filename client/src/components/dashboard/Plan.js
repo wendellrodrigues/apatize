@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import DatesTitle from "./PlanComponents/DatesTitle";
 import DaysWheel from "./PlanComponents/DaysWheel";
+import MealPlan from "./PlanComponents/MealPlan";
 import { getCurrentProfile } from "../../actions/profile";
 import { generateMealPlan, deleteMealPlan } from "../../actions/food";
 import Spinner from "../layout/Spinner";
@@ -48,7 +49,6 @@ const Plan = ({
     ];
 
     for (let day of days) {
-      console.log("Made handle render");
       if (today == day) return true;
     }
     //Clear plan from profile
@@ -56,19 +56,6 @@ const Plan = ({
     return false;
   };
 
-  //If generating meal plan
-  //Render
-  if (handleRender()) {
-    const dates = profile.week.dates;
-    return (
-      <Wrapper>
-        <ContentWrapper>
-          <DatesTitle dates={dates} />
-          <DaysWheel dates={dates} />
-        </ContentWrapper>
-      </Wrapper>
-    );
-  }
   //If plan not generated
   if (food.loading) {
     return (
@@ -84,6 +71,7 @@ const Plan = ({
           <ContentWrapper>
             <DatesTitle dates={dates} />
             <DaysWheel dates={dates} />
+            <MealPlan week={profile.week} />
           </ContentWrapper>
         </Wrapper>
       );
