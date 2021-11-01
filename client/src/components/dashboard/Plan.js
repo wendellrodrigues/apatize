@@ -6,7 +6,7 @@ import DatesTitle from "./PlanComponents/DatesTitle";
 import DaysWheel from "./PlanComponents/DaysWheel";
 import MealPlan from "./PlanComponents/MealPlan";
 import { getCurrentProfile } from "../../actions/profile";
-import { generateMealPlan, deleteMealPlan } from "../../actions/food";
+import { generateMealPlan, deleteMealPlan, setPlan } from "../../actions/food";
 import Spinner from "../layout/Spinner";
 
 const Plan = ({
@@ -15,16 +15,114 @@ const Plan = ({
   generateMealPlan,
   deleteMealPlan,
   getCurrentProfile,
+  setPlan,
 }) => {
   //Handler for generating a weekly plan
   const generatePlan = () => {
     generateMealPlan();
   };
 
-  /**
+  //Sets the current meals
+  const setCurrentPlan = () => {
+    const week = profile.week;
+
+    console.log(week);
+
+    const sunday = week.sunday;
+    const monday = week.monday;
+    const tuesday = week.tuesday;
+    const wednesday = week.wednesday;
+    const thursday = week.thursday;
+    const friday = week.friday;
+    const saturday = week.saturday;
+
+    //Entire Week (all meals in array)
+    const weekPlan = {
+      sunday: {
+        breakfasts: Object.entries(sunday.breakfasts),
+        lunches: Object.entries(sunday.lunches),
+        dinners: Object.entries(sunday.dinners),
+      },
+      monday: {
+        breakfasts: Object.entries(monday.breakfasts),
+        lunches: Object.entries(monday.lunches),
+        dinners: Object.entries(monday.dinners),
+      },
+      tuesday: {
+        breakfasts: Object.entries(tuesday.breakfasts),
+        lunches: Object.entries(tuesday.lunches),
+        dinners: Object.entries(tuesday.dinners),
+      },
+      wednesday: {
+        breakfasts: Object.entries(wednesday.breakfasts),
+        lunches: Object.entries(wednesday.lunches),
+        dinners: Object.entries(wednesday.dinners),
+      },
+      thursday: {
+        breakfasts: Object.entries(thursday.breakfasts),
+        lunches: Object.entries(thursday.lunches),
+        dinners: Object.entries(thursday.dinners),
+      },
+      friday: {
+        breakfasts: Object.entries(friday.breakfasts),
+        lunches: Object.entries(friday.lunches),
+        dinners: Object.entries(friday.dinners),
+      },
+      saturday: {
+        breakfasts: Object.entries(saturday.breakfasts),
+        lunches: Object.entries(saturday.lunches),
+        dinners: Object.entries(saturday.dinners),
+      },
+    };
+
+    //Current meal (which changes)
+    const currentWeekPlan = {
+      sunday: {
+        breakfast: Object.entries(sunday.breakfasts)[0],
+        lunch: Object.entries(sunday.lunches)[0],
+        dinner: Object.entries(sunday.dinners),
+      },
+      monday: {
+        breakfast: Object.entries(monday.breakfasts)[0],
+        lunch: Object.entries(monday.lunches)[0],
+        dinner: Object.entries(monday.dinners)[0],
+      },
+      tuesday: {
+        breakfast: Object.entries(tuesday.breakfasts)[0],
+        lunch: Object.entries(tuesday.lunches)[0],
+        dinner: Object.entries(tuesday.dinners)[0],
+      },
+      wednesday: {
+        breakfast: Object.entries(wednesday.breakfasts)[0],
+        lunch: Object.entries(wednesday.lunches)[0],
+        dinner: Object.entries(wednesday.dinners)[0],
+      },
+      thursday: {
+        breakfast: Object.entries(thursday.breakfasts)[0],
+        lunch: Object.entries(thursday.lunches)[0],
+        dinner: Object.entries(thursday.dinners)[0],
+      },
+      friday: {
+        breakfast: Object.entries(friday.breakfasts)[0],
+        lunch: Object.entries(friday.lunches)[0],
+        dinner: Object.entries(friday.dinners)[0],
+      },
+      saturday: {
+        breakfast: Object.entries(saturday.breakfasts)[0],
+        lunch: Object.entries(saturday.lunches)[0],
+        dinner: Object.entries(saturday.dinners)[0],
+      },
+    };
+
+    return {
+      week: weekPlan,
+      current: currentWeekPlan,
+    };
+  };
+
   useEffect(() => {
-    getCurrentProfile();
-  }, []); */
+    if (profile.week) setPlan(setCurrentPlan());
+  }, [profile]);
 
   //Check to see if today's date is within the days AND plan is generated
   const handleRender = () => {
@@ -51,6 +149,7 @@ const Plan = ({
     for (let day of days) {
       if (today == day) return true;
     }
+
     //Clear plan from profile
     deleteMealPlan();
     return false;
@@ -64,7 +163,7 @@ const Plan = ({
       </SpinnerContainer>
     );
   } else {
-    if (handleRender()) {
+    if (handleRender() == true) {
       const dates = profile.week.dates;
       return (
         <Wrapper>
@@ -158,6 +257,7 @@ Plan.propTypes = {
   getCurrentProfile: PropTypes.func,
   generateMealPlan: PropTypes.func.isRequired,
   deleteMealPlan: PropTypes.func.isRequired,
+  setPlan: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   food: PropTypes.object.isRequired,
 };
@@ -171,4 +271,5 @@ export default connect(mapStateToProps, {
   getCurrentProfile,
   generateMealPlan,
   deleteMealPlan,
+  setPlan,
 })(Plan);

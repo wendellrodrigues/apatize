@@ -15,13 +15,11 @@ module.exports = {
     // );
 
     const today = date.getDate();
-    const month = date.getMonth() + 1;
+    var month = date.getMonth() + 1;
     const year = date.getFullYear();
     const day = date.getDay();
 
     const leapYear = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
-
-    console.log(`Today: ${today}`);
 
     var sunday = today - day;
     var monday = today - day + 1;
@@ -33,16 +31,18 @@ module.exports = {
 
     //31 Day months
     if (
-      month == "January" ||
-      month == "March" ||
-      month == "May" ||
-      month == "July" ||
-      month == "August" ||
-      month == "October" ||
-      month == "December"
+      month == 1 ||
+      month == 3 ||
+      month == 5 ||
+      month == 7 ||
+      month == 8 ||
+      month == 10 ||
+      month == 12
     ) {
       //Handle end of month
-      if (sunday > 31) sunday = sunday - 31;
+      if (sunday > 31) {
+        sunday = sunday - 31;
+      }
       if (monday > 31) monday = monday - 31;
       if (tuesday > 31) tuesday = tuesday - 31;
       if (wednesday > 31) wednesday = wednesday - 31;
@@ -52,12 +52,7 @@ module.exports = {
 
       //Handle beginning of month
       //Months with 30 days the month prior
-      if (
-        month == "May" ||
-        month == "July" ||
-        month == "October" ||
-        month == "December"
-      ) {
+      if (month == 5 || month == 7 || month == 10 || month == 12) {
         if (sunday < 1) sunday = sunday + 30;
         if (monday < 1) monday = monday + 30;
         if (tuesday < 1) tuesday = tuesday + 30;
@@ -67,7 +62,7 @@ module.exports = {
         if (saturday < 1) saturday = saturday + 30;
       }
       //Months with 31 days prior
-      else if (month == "January" || month == "August") {
+      else if (month == 1 || month == 8) {
         if (sunday < 1) sunday = sunday + 31;
         if (monday < 1) monday = monday + 31;
         if (tuesday < 1) tuesday = tuesday + 31;
@@ -99,7 +94,7 @@ module.exports = {
           if (saturday < 1) saturday = saturday + 28;
         }
       }
-    } else if (month == "February") {
+    } else if (month == 2) {
       //Beginning of month
       //29 days
       if (leapYear) {
@@ -135,6 +130,7 @@ module.exports = {
     //30 Day (all others)
     else {
       //End of month
+
       if (sunday > 30) sunday = sunday - 30;
       if (monday > 30) monday = monday - 30;
       if (tuesday > 30) tuesday = tuesday - 30;

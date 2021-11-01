@@ -29,3 +29,6 @@ export const GENERATE_MEAL_PLAN = "GENERATE_MEAL_PLAN";
 export const DELETE_MEAL_PLAN = "DELETE_MEAL_PLAN";
 export const MEAL_PLAN_ERROR = "MEAL_PLAN_ERROR";
 export const SET_PLAN_LOADING = " SET_MEAL_LOADING";
+
+//Meal plan (weekly food)
+export const SET_PLAN = "SET_PLAN";

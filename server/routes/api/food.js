@@ -53,10 +53,9 @@ router.post("/generateMealPlan", auth, async (req, res) => {
       if (res == false) return res.status(500).send("Server Error");
     });
 
-    const weeklyMealPlan = userProfile.week;
-
-    return res.status(200).send({ msg: "User Profile Created" });
+    return res.status(200);
   } catch (err) {
+    console.log(err);
     return res.status(500).send("Server Error");
   }
 

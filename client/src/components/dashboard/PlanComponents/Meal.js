@@ -7,22 +7,31 @@ const Meal = (props) => {
   return (
     <Wrapper>
       <ComponentWrapper>
-        <ImageWrapper></ImageWrapper>
+        <ImageWrapper>
+          <Image src="https://spoonacular.com/recipeImages/638604-636x393.jpg" />
+        </ImageWrapper>
       </ComponentWrapper>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  height: 450px;
+  width: 350px;
+  margin: auto;
+  padding-top: 20px;
+`;
 const ComponentWrapper = styled.div`
   display: grid;
   align-items: start;
+  box-shadow: 0px 0px 10px #b0b0b0;
+  margin: auto;
 
   height: 400px;
   width: 300px;
   border-radius: 30px;
-  border: 1px solid gray;
-  padding-top: 5px;
+  padding-top: 0px;
+  overflow: hidden;
 
   @media (max-width: 420px) {
     height: 300px;
@@ -32,11 +41,19 @@ const ComponentWrapper = styled.div`
 
 const ImageWrapper = styled.div`
   height: 70%;
-  width: 95%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   border-radius: 30px;
-  border: 1px solid gray;
+  overflow: hidden;
+`;
+
+const Image = styled.img`
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 30px;
+  object-fit: cover;
 `;
 
 Meal.propTypes = {};

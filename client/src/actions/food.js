@@ -5,6 +5,7 @@ import {
   MEAL_PLAN_ERROR,
   GET_PROFILE,
   SET_PLAN_LOADING,
+  SET_PLAN,
 } from "./types";
 import { setAlert } from "./alert";
 import { getCurrentProfile } from "./profile";
@@ -26,6 +27,7 @@ export const generateMealPlan = (formData) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
+
     //Make axios request
     const res = await axios.post(
       `${baseUrl}/food/generateMealPlan`,
@@ -78,4 +80,13 @@ export const deleteMealPlan = () => async (dispatch) => {
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
+};
+
+//Sets the actual meal plan to days
+export const setPlan = (plan) => async (dispatch) => {
+  console.log(`Plan in action is ${plan}`);
+  dispatch({
+    type: SET_PLAN,
+    payload: plan,
+  });
 };
