@@ -3,12 +3,30 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-const Meal = (props) => {
+const Meal = ({ meal }) => {
+  //Meal information
+
+  var mealId = 0;
+  var mealInfo = {};
+  var image = "";
+  var title = "";
+  var cals = 0;
+  var carbs = 0;
+  var protein = 0;
+  var fat = 0;
+
+  if (meal) {
+    mealId = meal[0];
+    mealInfo = meal[1];
+    console.log(mealInfo);
+    image = `https://spoonacular.com/recipeImages/${mealId}-636x393.jpg`;
+  }
+
   return (
     <Wrapper>
       <ComponentWrapper>
         <ImageWrapper>
-          <Image src="https://spoonacular.com/recipeImages/638604-636x393.jpg" />
+          <Image src={image} />
         </ImageWrapper>
       </ComponentWrapper>
     </Wrapper>

@@ -21,6 +21,7 @@ router.get("/me", auth, async (req, res) => {
     if (!profile) {
       return res.status(400).json({ msg: "There is no profile for this user" });
     }
+    console.log("Found profile");
     res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -96,13 +97,14 @@ router.post(
           { $set: profileFields },
           { new: true }
         );
-        return res.status(200).send({ msg: "User Profile Created" });
+        return res.status(200).send();
       }
 
-      //Create new profile
+      //Create new profile & save
       profile = new Profile(profileFields);
       await profile.save();
-      res.status(200).send();
+      //Send profile
+      res.status(200).send(profile);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");

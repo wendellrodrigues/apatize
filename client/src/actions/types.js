@@ -32,3 +32,4 @@ export const SET_PLAN_LOADING = " SET_MEAL_LOADING";
 
 //Meal plan (weekly food)
 export const SET_PLAN = "SET_PLAN";
+export const ADJUST_CUR_MEALS = "ADJUST_CUR_MEALS";

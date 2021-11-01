@@ -53,7 +53,7 @@ router.post("/generateMealPlan", auth, async (req, res) => {
       if (res == false) return res.status(500).send("Server Error");
     });
 
-    return res.status(200);
+    return res.status(200).send();
   } catch (err) {
     console.log(err);
     return res.status(500).send("Server Error");
@@ -65,7 +65,7 @@ router.post("/generateMealPlan", auth, async (req, res) => {
   // await foods.generateWeeklyBreakfasts(600).then((breakfasts) => {
   //   if (breakfasts == null) return res.status(500).send("Server Error");
   //   await profile
-  // .addWeeklyBreakfasts(req.user.id, tmpBkfst)
+  // .addWeeklyBreakfasts(req.user.id, breakfasts)
   // .then((res) => {
   //   if (res == false) return res.status(500).send("Server Error");
   // });
@@ -74,7 +74,7 @@ router.post("/generateMealPlan", auth, async (req, res) => {
   // //Get Lunches from spoonacular;
   // await foods.generateWeeklyMainCourses(600, offset).then((lunches) => {
   //   if (lunches == null) return res.status(500).send("Server Error");
-  //   await profile.addWeeklyLunches(req.user.id, tmpLnch).then((res) => {
+  //   await profile.addWeeklyLunches(req.user.id, lunches).then((res) => {
   //   if (res == false) return res.status(500).send("Server Error");
   // });
   // });
@@ -82,7 +82,7 @@ router.post("/generateMealPlan", auth, async (req, res) => {
   // //Get Dinners from spoonacular
   // await foods.generateWeeklyMainCourses(600, offset + 1).then((dinners) => {
   //   if (dinners == null) return res.status(500).send("Server Error");
-  //   await profile.addWeeklyDinners(req.user.id, tmpDnr, offset).then((res) => {
+  //   await profile.addWeeklyDinners(req.user.id, dinners, offset).then((res) => {
   //   if (res == false) return res.status(500).send("Server Error");
   // });
   // });

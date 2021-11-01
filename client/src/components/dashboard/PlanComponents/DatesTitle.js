@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export default function DatesTitle({ dates: { sunday, saturday, month } }) {
   //Serialize month
-  const getMonth = () => {
+  const getMonth = (month) => {
     const months = {
       1: "January",
       2: "February",
@@ -21,11 +21,23 @@ export default function DatesTitle({ dates: { sunday, saturday, month } }) {
     return months[month];
   };
 
+  const renderSaturday = () => {
+    if (saturday < sunday) {
+      const curMonth = month;
+      const nextMonth = month + 1;
+      const nextMonthWord = getMonth(nextMonth);
+      const nextMonthShort = nextMonthWord.substring(0, 3);
+      return `${nextMonthShort} ${saturday}`;
+    } else {
+      return saturday;
+    }
+  };
+
   return (
     <Wrapper>
       <ContentWrapper>
-        <Month>{getMonth()}</Month>
-        <Dates>{`${sunday}-${saturday}`}</Dates>
+        <Month>{getMonth(month)}</Month>
+        <Dates>{`${sunday} - ${renderSaturday()}`}</Dates>
       </ContentWrapper>
     </Wrapper>
   );

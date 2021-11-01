@@ -6,6 +6,7 @@ import {
   GET_PROFILE,
   SET_PLAN_LOADING,
   SET_PLAN,
+  ADJUST_CUR_MEALS,
 } from "./types";
 import { setAlert } from "./alert";
 import { getCurrentProfile } from "./profile";
@@ -49,7 +50,7 @@ export const generateMealPlan = (formData) => async (dispatch) => {
     }
     dispatch({
       type: MEAL_PLAN_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err, status: err },
     });
   }
 };
@@ -77,16 +78,31 @@ export const deleteMealPlan = () => async (dispatch) => {
 
     dispatch({
       type: MEAL_PLAN_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { msg: err, status: err },
     });
   }
 };
 
 //Sets the actual meal plan to days
 export const setPlan = (plan) => async (dispatch) => {
-  console.log(`Plan in action is ${plan}`);
   dispatch({
     type: SET_PLAN,
     payload: plan,
   });
 };
+
+export const adjustCurrentMeals =
+  (currentMeals, newMeal, day, type) => async (dispatch) => {
+    // console.log("Before");
+    // console.log(currentMeals);
+
+    currentMeals[day][type] = newMeal;
+
+    // console.log("After");
+    // console.log(currentMeals);
+
+    dispatch({
+      type: ADJUST_CUR_MEALS,
+      payload: { currentMeals },
+    });
+  };

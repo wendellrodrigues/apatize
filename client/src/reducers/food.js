@@ -4,6 +4,7 @@ import {
   MEAL_PLAN_ERROR,
   SET_PLAN_LOADING,
   SET_PLAN,
+  ADJUST_CUR_MEALS,
 } from "../actions/types";
 
 const initialState = {
@@ -95,7 +96,6 @@ export default function food(state = initialState, action) {
         loading: true,
       };
     case GENERATE_MEAL_PLAN:
-      console.log("Generating meal plan from reducer");
       return {
         ...state,
         loading: false,
@@ -111,11 +111,15 @@ export default function food(state = initialState, action) {
         loading: false,
       };
     case SET_PLAN:
-      console.log(`In reducer, got plan and it is ${payload}`);
       return {
         ...state,
         plan: payload.week,
         currentMeals: payload.current,
+      };
+    case ADJUST_CUR_MEALS:
+      return {
+        ...state,
+        currentMeals: payload.currentMeals,
       };
 
     default:
