@@ -11,7 +11,8 @@ import Spinner from "../layout/Spinner";
 
 const Plan = ({
   profile: { profile },
-  food,
+  food: { currentMeals, loading },
+  day: { day },
   generateMealPlan,
   deleteMealPlan,
   getCurrentProfile,
@@ -80,7 +81,7 @@ const Plan = ({
       sunday: {
         breakfast: Object.entries(sunday.breakfasts)[0],
         lunch: Object.entries(sunday.lunches)[0],
-        dinner: Object.entries(sunday.dinners),
+        dinner: Object.entries(sunday.dinners)[0],
       },
       monday: {
         breakfast: Object.entries(monday.breakfasts)[0],
@@ -120,6 +121,25 @@ const Plan = ({
     };
   };
 
+  const getTotalNutrients = () => {
+    const dayPlan = currentMeals[day.toLowerCase()];
+    const breakfast = dayPlan.breakfast;
+    const breakfastCalories = Math.round(breakfast[1].nutrients[0].amount);
+
+    const lunch = dayPlan.lunch;
+    const lunchCalories = Math.round(lunch[1].nutrients[0].amount);
+    const dinner = dayPlan.dinner;
+    const dinnerCalories = Math.round(dinner[1].nutrients[0].amount);
+    const totalCalories = breakfastCalories + lunchCalories + dinnerCalories;
+    console.log(`Total Calories: ${totalCalories}`);
+    return {
+      calories: totalCalories,
+      carbs: "",
+      protein: "",
+      fat: "",
+    };
+  };
+
   useEffect(() => {
     if (profile.week) setPlan(setCurrentPlan());
   }, [profile]);
@@ -156,7 +176,7 @@ const Plan = ({
   };
 
   //If plan not generated
-  if (food.loading) {
+  if (loading) {
     return (
       <SpinnerContainer>
         <Spinner />
@@ -164,11 +184,16 @@ const Plan = ({
     );
   } else {
     if (handleRender() == true) {
+      //getTotalNutrients();
       const dates = profile.week.dates;
       return (
         <Wrapper>
           <ContentWrapper>
-            <DatesTitle dates={dates} />
+            <TitleWrapper>
+              <IngredientsButton>Get Ingredients</IngredientsButton>
+              <DatesTitle dates={dates} />
+              <NutrientsBox />
+            </TitleWrapper>
             <DaysWheel dates={dates} />
             <MealPlan week={profile.week} />
           </ContentWrapper>
@@ -228,6 +253,15 @@ const Welcome = styled.h1`
   overflow: hidden;
 `;
 
+export const TitleWrapper = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-items: center;
+  align-items: center;
+  width: 70%;
+  margin: auto;
+`;
+
 export const GreenButton = styled.div`
   display: grid;
   margin: auto;
@@ -253,16 +287,56 @@ export const GreenButton = styled.div`
   transition: 0.2s ease-in;
 `;
 
+const IngredientsButton = styled.div`
+  display: grid;
+  height: 50px;
+  width: 200px;
+  background: #cbf6da;
+  border-radius: 15px;
+  justify-items: center;
+  color: #0b461b;
+  justify-self: start;
+  align-self: center;
+  transition: 0.2s ease-in;
+
+  justify-items: center;
+  align-items: center;
+
+  color: #0b461b;
+  font-size: 17px;
+  font-weight: bold;
+  line-height: normal;
+
+  :hover {
+    background: #e3faeb;
+    cursor: pointer;
+    color: #76a385;
+  }
+`;
+
+export const NutrientsBox = styled.div`
+  display: grid;
+  height: 100px;
+  width: 200px;
+  background: #e6e6e6;
+  border-radius: 15px;
+  justify-items: center;
+  color: #0b461b;
+  justify-self: end;
+`;
+
 Plan.propTypes = {
   getCurrentProfile: PropTypes.func,
   generateMealPlan: PropTypes.func.isRequired,
   deleteMealPlan: PropTypes.func.isRequired,
   setPlan: PropTypes.func.isRequired,
+  day: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   food: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  day: state.day,
   profile: state.profile,
   food: state.food,
 });

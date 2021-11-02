@@ -156,16 +156,19 @@ const ContentWrapper = styled.div`
   margin: auto;
   display: grid;
   width: 100%;
-  gap: 100px;
+  gap: 50px;
   grid-template-columns: auto auto auto;
 `;
 
 //Breakfast, lunch, and dinner icons
 const Icon = styled.img``;
 
-const Breakfast = styled.div``;
-const Lunch = styled.div``;
-const Dinner = styled.div``;
+const Breakfast = styled.div`
+  display: grid;
+  gap: 10px;
+`;
+const Lunch = styled(Breakfast)``;
+const Dinner = styled(Breakfast)``;
 
 const PrevNextButtons = styled.div`
   display: grid;
