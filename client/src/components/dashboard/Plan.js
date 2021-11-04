@@ -6,7 +6,12 @@ import DatesTitle from "./PlanComponents/DatesTitle";
 import DaysWheel from "./PlanComponents/DaysWheel";
 import MealPlan from "./PlanComponents/MealPlan";
 import { getCurrentProfile } from "../../actions/profile";
-import { generateMealPlan, deleteMealPlan, setPlan } from "../../actions/food";
+import {
+  generateMealPlan,
+  deleteMealPlan,
+  setPlan,
+  saveCurrentPlan,
+} from "../../actions/food";
 import Spinner from "../layout/Spinner";
 
 const Plan = ({
@@ -17,6 +22,7 @@ const Plan = ({
   deleteMealPlan,
   getCurrentProfile,
   setPlan,
+  saveCurrentPlan,
 }) => {
   //Handler for generating a weekly plan
   const generatePlan = () => {
@@ -26,9 +32,6 @@ const Plan = ({
   //Sets the current meals
   const setCurrentPlan = () => {
     const week = profile.week;
-
-    console.log(week);
-
     const sunday = week.sunday;
     const monday = week.monday;
     const tuesday = week.tuesday;
@@ -76,44 +79,184 @@ const Plan = ({
       },
     };
 
-    //Current meal (which changes)
-    const currentWeekPlan = {
-      sunday: {
-        breakfast: Object.entries(sunday.breakfasts)[0],
-        lunch: Object.entries(sunday.lunches)[0],
-        dinner: Object.entries(sunday.dinners)[0],
-      },
-      monday: {
-        breakfast: Object.entries(monday.breakfasts)[0],
-        lunch: Object.entries(monday.lunches)[0],
-        dinner: Object.entries(monday.dinners)[0],
-      },
-      tuesday: {
-        breakfast: Object.entries(tuesday.breakfasts)[0],
-        lunch: Object.entries(tuesday.lunches)[0],
-        dinner: Object.entries(tuesday.dinners)[0],
-      },
-      wednesday: {
-        breakfast: Object.entries(wednesday.breakfasts)[0],
-        lunch: Object.entries(wednesday.lunches)[0],
-        dinner: Object.entries(wednesday.dinners)[0],
-      },
-      thursday: {
-        breakfast: Object.entries(thursday.breakfasts)[0],
-        lunch: Object.entries(thursday.lunches)[0],
-        dinner: Object.entries(thursday.dinners)[0],
-      },
-      friday: {
-        breakfast: Object.entries(friday.breakfasts)[0],
-        lunch: Object.entries(friday.lunches)[0],
-        dinner: Object.entries(friday.dinners)[0],
-      },
-      saturday: {
-        breakfast: Object.entries(saturday.breakfasts)[0],
-        lunch: Object.entries(saturday.lunches)[0],
-        dinner: Object.entries(saturday.dinners)[0],
-      },
+    //Saved curWeekFromProfile
+    const curWeekFromProfile = profile.week.currentMealPlan;
+
+    //Helper inner function to findMeal in the week plan array
+    const findMealInArray = (mealId, day, mealType) => {
+      for (var meal of weekPlan[day][mealType]) {
+        if (meal[0] == mealId) return meal;
+      }
+      return null;
     };
+
+    //Build Current Week Plan
+    var currentWeekPlan = {};
+
+    //Set current week to saved week or use first item in array
+    if (curWeekFromProfile) {
+      currentWeekPlan = {
+        sunday: {
+          breakfast: findMealInArray(
+            curWeekFromProfile.sunday.breakfast,
+            "sunday",
+            "breakfasts"
+          ),
+          lunch: findMealInArray(
+            curWeekFromProfile.sunday.lunch,
+            "sunday",
+            "lunches"
+          ),
+          dinner: findMealInArray(
+            curWeekFromProfile.sunday.dinner,
+            "sunday",
+            "dinners"
+          ),
+        },
+        monday: {
+          breakfast: findMealInArray(
+            curWeekFromProfile.monday.breakfast,
+            "monday",
+            "breakfasts"
+          ),
+          lunch: findMealInArray(
+            curWeekFromProfile.monday.lunch,
+            "monday",
+            "lunches"
+          ),
+          dinner: findMealInArray(
+            curWeekFromProfile.monday.dinner,
+            "monday",
+            "dinners"
+          ),
+        },
+        tuesday: {
+          breakfast: findMealInArray(
+            curWeekFromProfile.tuesday.breakfast,
+            "tuesday",
+            "breakfasts"
+          ),
+          lunch: findMealInArray(
+            curWeekFromProfile.tuesday.lunch,
+            "tuesday",
+            "lunches"
+          ),
+          dinner: findMealInArray(
+            curWeekFromProfile.tuesday.dinner,
+            "tuesday",
+            "dinners"
+          ),
+        },
+        wednesday: {
+          breakfast: findMealInArray(
+            curWeekFromProfile.wednesday.breakfast,
+            "wednesday",
+            "breakfasts"
+          ),
+          lunch: findMealInArray(
+            curWeekFromProfile.wednesday.lunch,
+            "wednesday",
+            "lunches"
+          ),
+          dinner: findMealInArray(
+            curWeekFromProfile.wednesday.dinner,
+            "wednesday",
+            "dinners"
+          ),
+        },
+        thursday: {
+          breakfast: findMealInArray(
+            curWeekFromProfile.thursday.breakfast,
+            "thursday",
+            "breakfasts"
+          ),
+          lunch: findMealInArray(
+            curWeekFromProfile.thursday.lunch,
+            "thursday",
+            "lunches"
+          ),
+          dinner: findMealInArray(
+            curWeekFromProfile.thursday.dinner,
+            "thursday",
+            "dinners"
+          ),
+        },
+        friday: {
+          breakfast: findMealInArray(
+            curWeekFromProfile.friday.breakfast,
+            "friday",
+            "breakfasts"
+          ),
+          lunch: findMealInArray(
+            curWeekFromProfile.friday.lunch,
+            "friday",
+            "lunches"
+          ),
+          dinner: findMealInArray(
+            curWeekFromProfile.friday.dinner,
+            "friday",
+            "dinners"
+          ),
+        },
+        saturday: {
+          breakfast: findMealInArray(
+            curWeekFromProfile.friday.breakfast,
+            "friday",
+            "breakfasts"
+          ),
+          lunch: findMealInArray(
+            curWeekFromProfile.friday.lunch,
+            "friday",
+            "lunches"
+          ),
+          dinner: findMealInArray(
+            curWeekFromProfile.friday.dinner,
+            "friday",
+            "dinners"
+          ),
+        },
+      };
+      console.log("CUR WEEK PLAN");
+      console.log(currentWeekPlan);
+    } else {
+      currentWeekPlan = {
+        sunday: {
+          breakfast: Object.entries(sunday.breakfasts)[0],
+          lunch: Object.entries(sunday.lunches)[0],
+          dinner: Object.entries(sunday.dinners)[0],
+        },
+        monday: {
+          breakfast: Object.entries(monday.breakfasts)[0],
+          lunch: Object.entries(monday.lunches)[0],
+          dinner: Object.entries(monday.dinners)[0],
+        },
+        tuesday: {
+          breakfast: Object.entries(tuesday.breakfasts)[0],
+          lunch: Object.entries(tuesday.lunches)[0],
+          dinner: Object.entries(tuesday.dinners)[0],
+        },
+        wednesday: {
+          breakfast: Object.entries(wednesday.breakfasts)[0],
+          lunch: Object.entries(wednesday.lunches)[0],
+          dinner: Object.entries(wednesday.dinners)[0],
+        },
+        thursday: {
+          breakfast: Object.entries(thursday.breakfasts)[0],
+          lunch: Object.entries(thursday.lunches)[0],
+          dinner: Object.entries(thursday.dinners)[0],
+        },
+        friday: {
+          breakfast: Object.entries(friday.breakfasts)[0],
+          lunch: Object.entries(friday.lunches)[0],
+          dinner: Object.entries(friday.dinners)[0],
+        },
+        saturday: {
+          breakfast: Object.entries(saturday.breakfasts)[0],
+          lunch: Object.entries(saturday.lunches)[0],
+          dinner: Object.entries(saturday.dinners)[0],
+        },
+      };
+    }
 
     return {
       week: weekPlan,
@@ -131,7 +274,7 @@ const Plan = ({
     const dinner = dayPlan.dinner;
     const dinnerCalories = Math.round(dinner[1].nutrients[0].amount);
     const totalCalories = breakfastCalories + lunchCalories + dinnerCalories;
-    console.log(`Total Calories: ${totalCalories}`);
+
     return {
       calories: totalCalories,
       carbs: "",
@@ -175,6 +318,48 @@ const Plan = ({
     return false;
   };
 
+  //Saves the current plan to db upon button click "Save"
+  const savePlan = () => {
+    const plan = {
+      sunday: {
+        breakfast: currentMeals.sunday.breakfast[0],
+        lunch: currentMeals.sunday.lunch[0],
+        dinner: currentMeals.sunday.dinner[0],
+      },
+      monday: {
+        breakfast: currentMeals.monday.breakfast[0],
+        lunch: currentMeals.monday.lunch[0],
+        dinner: currentMeals.monday.dinner[0],
+      },
+      tuesday: {
+        breakfast: currentMeals.tuesday.breakfast[0],
+        lunch: currentMeals.tuesday.lunch[0],
+        dinner: currentMeals.tuesday.dinner[0],
+      },
+      wednesday: {
+        breakfast: currentMeals.wednesday.breakfast[0],
+        lunch: currentMeals.wednesday.lunch[0],
+        dinner: currentMeals.wednesday.dinner[0],
+      },
+      thursday: {
+        breakfast: currentMeals.thursday.breakfast[0],
+        lunch: currentMeals.thursday.lunch[0],
+        dinner: currentMeals.thursday.dinner[0],
+      },
+      friday: {
+        breakfast: currentMeals.friday.breakfast[0],
+        lunch: currentMeals.friday.lunch[0],
+        dinner: currentMeals.friday.dinner[0],
+      },
+      saturday: {
+        breakfast: currentMeals.saturday.breakfast[0],
+        lunch: currentMeals.saturday.lunch[0],
+        dinner: currentMeals.saturday.dinner[0],
+      },
+    };
+    saveCurrentPlan(plan);
+  };
+
   //If plan not generated
   if (loading) {
     return (
@@ -195,7 +380,10 @@ const Plan = ({
               <NutrientsBox />
             </TitleWrapper>
             <DaysWheel dates={dates} />
-            <MealPlan week={profile.week} />
+            <MealPlanWrapper>
+              <MealPlan week={profile.week} />
+            </MealPlanWrapper>
+            <GreenButton onClick={savePlan}>Save</GreenButton>
           </ContentWrapper>
         </Wrapper>
       );
@@ -260,6 +448,13 @@ export const TitleWrapper = styled.div`
   align-items: center;
   width: 70%;
   margin: auto;
+  padding-left: 30px;
+  padding-right: 30px;
+`;
+
+const MealPlanWrapper = styled.div`
+  margin: auto;
+  width: 70%;
 `;
 
 export const GreenButton = styled.div`
@@ -316,9 +511,9 @@ const IngredientsButton = styled.div`
 
 export const NutrientsBox = styled.div`
   display: grid;
-  height: 100px;
+  height: 50px;
   width: 200px;
-  background: #e6e6e6;
+  background: #fae6e6;
   border-radius: 15px;
   justify-items: center;
   color: #0b461b;
@@ -330,6 +525,7 @@ Plan.propTypes = {
   generateMealPlan: PropTypes.func.isRequired,
   deleteMealPlan: PropTypes.func.isRequired,
   setPlan: PropTypes.func.isRequired,
+  saveCurrentPlan: PropTypes.func.isRequired,
   day: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   food: PropTypes.object.isRequired,
@@ -346,4 +542,5 @@ export default connect(mapStateToProps, {
   generateMealPlan,
   deleteMealPlan,
   setPlan,
+  saveCurrentPlan,
 })(Plan);

@@ -7,6 +7,7 @@ import {
   SET_PLAN_LOADING,
   SET_PLAN,
   ADJUST_CUR_MEALS,
+  SAVE_CUR_PLAN,
 } from "./types";
 import { setAlert } from "./alert";
 import { getCurrentProfile } from "./profile";
@@ -93,16 +94,41 @@ export const setPlan = (plan) => async (dispatch) => {
 
 export const adjustCurrentMeals =
   (currentMeals, newMeal, day, type) => async (dispatch) => {
-    // console.log("Before");
-    // console.log(currentMeals);
-
     currentMeals[day][type] = newMeal;
-
-    // console.log("After");
-    // console.log(currentMeals);
-
     dispatch({
       type: ADJUST_CUR_MEALS,
       payload: { currentMeals },
     });
   };
+
+export const saveCurrentPlan = (plan) => async (dispatch) => {
+  //Start loading
+  dispatch({
+    type: SET_PLAN_LOADING,
+  });
+
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    ////Make call to backend to save current plan
+    const res = await axios.post(
+      `${baseUrl}/food/saveCurrentPlan`,
+      plan,
+      config
+    );
+  } catch (err) {
+    dispatch({
+      type: MEAL_PLAN_ERROR,
+      payload: { msg: err, status: err },
+    });
+  }
+
+  //Finish loading
+  dispatch({
+    type: SAVE_CUR_PLAN,
+  });
+};

@@ -14,6 +14,29 @@ const Day = new mongoose.Schema({
   },
 });
 
+//When user saves the current meal plan, the following two objects are generated
+const CurrentMealDay = new mongoose.Schema({
+  breakfast: {
+    type: Number,
+  },
+  lunch: {
+    type: Number,
+  },
+  dinner: {
+    type: Number,
+  },
+});
+
+const CurrentMealPlan = new mongoose.Schema({
+  sunday: { type: CurrentMealDay },
+  monday: { type: CurrentMealDay },
+  tuesday: { type: CurrentMealDay },
+  wednesday: { type: CurrentMealDay },
+  thursday: { type: CurrentMealDay },
+  friday: { type: CurrentMealDay },
+  saturday: { type: CurrentMealDay },
+});
+
 //Days of the week
 const Dates = new mongoose.Schema({
   today: {
@@ -72,6 +95,9 @@ const Week = new mongoose.Schema({
   },
   dates: {
     type: Dates,
+  },
+  currentMealPlan: {
+    type: CurrentMealPlan,
   },
 });
 

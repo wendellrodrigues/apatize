@@ -5,6 +5,7 @@ import {
   SET_PLAN_LOADING,
   SET_PLAN,
   ADJUST_CUR_MEALS,
+  SAVE_CUR_PLAN,
 } from "../actions/types";
 
 const initialState = {
@@ -120,6 +121,11 @@ export default function food(state = initialState, action) {
       return {
         ...state,
         currentMeals: payload.currentMeals,
+      };
+    case SAVE_CUR_PLAN:
+      return {
+        ...state,
+        loading: false,
       };
 
     default:

@@ -68,4 +68,40 @@ module.exports = {
 
     return data;
   },
+
+  /**
+      Saves current plan plan to user object in mongodb
+      @param plan Is the full weekly saved plan specified by the user
+   */
+  saveCurrentMealPlan: async (id, plan) => {
+    try {
+      let profile = await Profile.findOne({ user: id }); //Matched from token
+      if (profile) {
+        const profileFields = {
+          week: {
+            sunday: profile.week.sunday,
+            monday: profile.week.monday,
+            tuesday: profile.week.tuesday,
+            wednesday: profile.week.wednesday,
+            thursday: profile.week.thursday,
+            friday: profile.week.friday,
+            saturday: profile.week.saturday,
+            dates: profile.week.dates,
+            currentMealPlan: plan,
+          },
+        };
+
+        //Update
+        profile = await Profile.findOneAndUpdate(
+          { user: id },
+          { $set: profileFields },
+          { useFindAndModify: false }
+        );
+        return true;
+      } else return false;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  },
 };

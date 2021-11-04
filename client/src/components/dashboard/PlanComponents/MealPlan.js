@@ -156,8 +156,9 @@ const ContentWrapper = styled.div`
   margin: auto;
   display: grid;
   width: 100%;
-  gap: 50px;
+
   grid-template-columns: auto auto auto;
+  justify-items: space-between;
 `;
 
 //Breakfast, lunch, and dinner icons

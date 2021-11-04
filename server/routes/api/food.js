@@ -89,6 +89,27 @@ router.post("/generateMealPlan", auth, async (req, res) => {
 });
 
 /**
+  @route    POST api/food/saveCurrentPlan
+  @desc     Saves the current meal plan of a user
+  @access   Private 
+ */
+router.post("/saveCurrentPlan", auth, async (req, res) => {
+  let userProfile = await Profile.findOne({ user: req.user.id });
+  if (!userProfile) return res.status(500).json({ err: "No Profile Found" });
+  const plan = req.body;
+
+  try {
+    await foods.saveCurrentMealPlan(req.user.id, plan).then((res) => {
+      if (res == false) return res.status(500).send("Server Error");
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Server Error");
+  }
+  res.status(200).send();
+});
+
+/**
   @route    POST api/food/deleteMealPlan
   @desc     Deletes week object from user profile
   @access   Private  */
